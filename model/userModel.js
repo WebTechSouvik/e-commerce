@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
 	avtar: {
 		type: String,
 	},
+	role:{
+		type:String,
+		default:"user"
+	}
 });
 
 
