@@ -3,12 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import AlertTemplate from 'react-alert-template-basic'
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+
+const options = {
+  // you can also just use 'bottom center'
+  position: 'bottom center',
+  timeout: 3000,
+  offset: '30px',
+  // you can also just use 'scale'
+  transition: 'scale'
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+ <AlertProvider template={AlertTemplate} {...options}>
     <App />
-  </React.StrictMode>
+ </AlertProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

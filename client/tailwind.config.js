@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily:{
+     'nav':['Josefin Sans', 'sans-serif']
+    }
   },
   plugins: [],
 }

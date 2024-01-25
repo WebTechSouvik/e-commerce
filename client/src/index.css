@@ -1,8 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities ;
-
-
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,400&family=Playfair+Display&family=Poppins&display=swap');
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,9 +9,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f3ebeb;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.menuBurger{
+  height: 3.5vmax;
+}
+/*
+ul{
+  font-family: 'Josefin Sans', sans-serif;
+}*/
+
+
+
+   .clip-your-needful-style {
+
+       clip-path: polygon(100% 73%, 0% 100%, 100% 100%);
+
+   }
+
