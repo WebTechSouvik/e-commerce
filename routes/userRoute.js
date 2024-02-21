@@ -1,14 +1,14 @@
 import {Router} from "express"
-import{registerController,loginController} from "../controller/userController.js"
+import{registerController,loginController,userDetalisController,userLogoutController} from "../controller/userController.js"
 import {authorization} from "../middeleware/authMiddleware.js"
+import {upload} from "../middeleware/multerMiddleware.js"
 
 const router=Router()
 
 
-router.route("/register").post(registerController)
+router.route("/register").post(upload.single("file"),registerController)
 router.route("/login").post(loginController)
 
-router.route("/test").get(authorization,(req,res)=>{
-	return res.status(200).json({message:"sucess"})
-})
+router.route("/detalis").get(authorization,userDetalisController)
+router.route("/logout").post(authorization,userLogoutController)
 export default router

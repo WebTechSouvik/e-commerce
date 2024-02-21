@@ -5,7 +5,8 @@ export const getDataFromApi = async (url) => {
 
 	console.log(`${baseUrl}${url}`);
 
-	const {data:apidata} = await axios(`${baseUrl}${url}`);
-	// console.log(apidata)
+	const res = await axios(`${baseUrl}${url}`);
+	const {data: apidata}=res;
+	console.log(res)
 	return apidata;
 };

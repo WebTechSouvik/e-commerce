@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { BsMouse } from "react-icons/bs";
 import axios from "axios";
 import ContentWrapper from "../components/ContentWrapper.jsx";
-import { useAlert } from "react-alert";
+
 import useGet from "../hooks/useGet.jsx";
 
 import Product from "../components/Product.jsx";
 const HomePage = () => {
 	const { data, loading, error } = useGet("/product/?limit=8");
-	const alert = useAlert();
+
 	// console.log(data);
 	// useEffect(()=>{
 	// 	console.log(error?.data?.message)

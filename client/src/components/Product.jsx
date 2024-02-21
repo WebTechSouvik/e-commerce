@@ -4,7 +4,7 @@ import {Link} from  "react-router-dom"
 
 const Product = ({product}) => {
 const {name,price,images,_id}=product
-	console.log(product)
+	// console.log(product)
 	return (
 		<Link to={`/product/${_id}`}className="min-w-[23%]  h-[350px] flex items-start  flex-col gap-3 rounded-xl font-['Poppins'] font-bold  pl-5 hover:-translate-y-3 transition-all duration-300 ease-out group">
 		<div className="w-full h-4/6">

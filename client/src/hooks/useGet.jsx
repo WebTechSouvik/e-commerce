@@ -13,7 +13,7 @@ try{
 	setdata(apidata)
 }
 catch(err){
-	// console.log(err.response.data.message)
+	console.log(err.response.data.message)
 	setError(err.response)
 }
 

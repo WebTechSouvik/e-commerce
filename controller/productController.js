@@ -14,7 +14,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 
 export const getAllProducts = asyncHandler(async (req, res) => {
 	const { query, page, limit, catagory, price } = req.query;
-	console.log(req.query.price);
+	// console.log(req.query.price);
 
 	const filter = {};
 

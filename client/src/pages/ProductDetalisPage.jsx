@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ContentWrapper from "../components/ContentWrapper.jsx";
 import StarRatings from "react-star-ratings";
 import { useParams } from "react-router-dom";
@@ -6,14 +6,23 @@ import useGet from "../hooks/useGet.jsx";
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaChevronRight } from "react-icons/fa";
 import classNames from "classnames";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, addToCartThunk } from "../redux/slice/cartSlice.js";
 
 const ProductDetalisPage = () => {
 	const [change, setchange] = useState(0);
+	const [product, setProduct] = useState();
+	const [quantity, setQuantity] = useState(1);
 	const { Id } = useParams();
 	const { data, loading, error } = useGet(`/product/${Id}`);
-	console.log(data);
 	const shortdiv = useRef(null);
 	const longdiv = useRef(null);
+	const dispatch = useDispatch();
+	const items = useSelector((state) => state.cart.cartItems);
+
+	useEffect(() => {
+		setProduct(data?.product);
+	}, [data]);
 
 	const carosal = (scroll) => {
 		const maxScroll =
@@ -23,6 +32,36 @@ const ProductDetalisPage = () => {
 		console.log(newScroll);
 		if (-maxScroll <= newScroll && newScroll <= 0) {
 			setchange(newScroll);
+		}
+	};
+
+	const addToACartFun = () => {
+		const newItem = {
+			product: {
+				_id: product?._id,
+				name: product?.name,
+				price: product?.price,
+				images: product?.images,
+				stock: product?.stock,
+			},
+			quantity,
+		};
+		if (items.length == 0) {
+			dispatch(addToCart(newItem));
+			dispatch(addToCartThunk(product?._id, quantity));
+		} else {
+			const ispresent = items.some(
+				(item) => product?._id == item.product._id,
+			);
+
+			if (ispresent) {
+				console.log(ispresent);
+				return;
+				//alert show "items is present"
+			} else {
+				dispatch(addToCart(newItem));
+				dispatch(addToCartThunk(product._id, quantity));
+			}
 		}
 	};
 
@@ -48,56 +87,14 @@ const ProductDetalisPage = () => {
 										className="mix-blend-multiply h-full w-full object-contain"
 									/>
 								</div>
-								<div className="h-full min-w-[314px]">
-									<img
-										src="https://rukminim2.flixcart.com/image/720/1080/xif0q/shirt/m/o/t/l-st1-vebnor-original-imagmsyxhvkrfjgz.jpeg?q=70&crop=false"
-										alt=""
-										className="mix-blend-multiply h-full max-w-full object-cover"
-									/>
-								</div>
-								<div className="h-full min-w-[314px]">
-									<img
-										src="https://rukminim2.flixcart.com/image/720/1080/xif0q/shirt/p/1/q/m-upper1-s-k-casual-original-imagu7psug4fgtjy.jpeg?q=70&crop=false"
-										alt=""
-										className="mix-blend-multiply h-full w-full object-contain"
-									/>
-								</div>
-								<div className="h-full min-w-[314px]">
-									<img
-										src="https://rukminim2.flixcart.com/image/720/1080/xif0q/shirt/3/i/c/l-upper1-s-k-casual-original-imagu7ps2c2rzqx4.jpeg?q=70&crop=false"
-										alt=""
-										className="mix-blend-multiply h-full w-full object-contain"
-									/>
-								</div>
-								<div className="h-full min-w-[314px]">
-									<img
-										src="https://rukminim2.flixcart.com/image/720/1080/xif0q/shirt/h/j/8/l-upper1-s-k-casual-original-imagu7psac2tdj5z.jpeg?q=70&crop=false"
-										alt=""
-										className="mix-blend-multiply h-full w-full object-contain"
-									/>
-								</div>
-								<div className="h-full min-w-[314px]">
-									<img
-										src="https://rukminim2.flixcart.com/image/720/1080/xif0q/shirt/4/v/u/xxl-upper1-s-k-casual-original-imagu7pskdnhtu3b.jpeg?q=70&crop=false"
-										alt=""
-										className="mix-blend-multiply h-full w-full object-contain"
-									/>
-								</div>
-								<div className="h-full min-w-[314px]">
-									<img
-										src="https://rukminim2.flixcart.com/image/720/1080/xif0q/shirt/n/b/b/s-upper1-s-k-casual-original-imagu7pstfwghmr8.jpeg?q=70&crop=false"
-										alt=""
-										className="mix-blend-multiply h-full w-full object-contain"
-									/>
-								</div>
 							</div>
 						</div>
 						<FaChevronRight onClick={() => carosal(-314)} />
 					</div>
 					<div className=" w-[30%] pl-10">
-						<h2 className="text-2xl font-bold">product name</h2>
+						<h2 className="text-2xl font-bold">{product?.name}</h2>
 						<p className="text-gray-600 text-sm border-b-[1px] border-gray-400 pb-1 ">
-							product-#Id
+							{product?._id}
 						</p>
 						<div className="py-6 border-b-[1px] border-gray-400">
 							<StarRatings
@@ -107,7 +104,7 @@ const ProductDetalisPage = () => {
 								starRatedColor="#ff6347"
 							/>
 						</div>
-						<p className="text-2xl my-3">10000</p>
+						<p className="text-2xl my-3">{product?.price}</p>
 
 						<div className="inline">
 							<button className="px-1 bg-gray-600 inline">
@@ -118,7 +115,10 @@ const ProductDetalisPage = () => {
 								-
 							</button>
 						</div>
-						<button className=" ml-3 px-2 py-1 bg-[#ff6347] inline rounded-2xl text-white">
+						<button
+							className=" ml-3 px-2 py-1 bg-[#ff6347] inline rounded-2xl text-white"
+							onClick={addToACartFun}
+						>
 							Add To Cart
 						</button>
 
@@ -128,7 +128,7 @@ const ProductDetalisPage = () => {
 						<h1 className="font-bold mt-4 border-t-[1px] border-gray-400 pt-2">
 							Description
 						</h1>
-						<p className="text-sm">this is simple product</p>
+						<p className="text-sm">{product?.description}</p>
 						<button className="px-4 py-2 bg-[#ff6347] inline rounded-2xl text-white mt-5 text-[12px]">
 							Submit Review
 						</button>
