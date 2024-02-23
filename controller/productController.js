@@ -14,7 +14,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 
 export const getAllProducts = asyncHandler(async (req, res) => {
 	const { query, page, limit, catagory, price } = req.query;
-	// console.log(req.query.price);
+	console.log(catagory);
 
 	const filter = {};
 
@@ -23,7 +23,12 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 	}
 
 	if (catagory) {
-		filter.catagory = catagory;
+	// 	if(typeof catagory=="object")
+	// 	filter.catagory = {$in:[...catagory]}
+	// else
+	// 	filter.catagory = {$in:[catagory]}
+	const catagoryFilter=catagory.split(",")
+		filter.catagory = {$in:[...catagoryFilter]}
 	}
 
 	if (price) {

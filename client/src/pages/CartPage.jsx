@@ -6,57 +6,26 @@ import { FaShoppingCart } from "react-icons/fa"
 import { Link } from "react-router-dom";
 import {getAllItemsThunk} from "../redux/slice/cartSlice.js"
 
-const products = [
-	{
-		id: 1,
-		name: "Throwback Hip Bag",
-		href: "#",
-		color: "Salmon",
-		price: "$90.00",
-		quantity: 1,
-		imageSrc:
-			"https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-		imageAlt:
-			"Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-	},
-	{
-		id: 2,
-		name: "Medium Stuff Satchel",
-		href: "#",
-		color: "Blue",
-		price: "$32.00",
-		quantity: 1,
-		imageSrc:
-			"https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-		imageAlt:
-			"Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-	},
-	{
-		id: 2,
-		name: "Medium Stuff Satchel",
-		href: "#",
-		color: "Blue",
-		price: "$32.00",
-		quantity: 1,
-		imageSrc:
-			"https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-		imageAlt:
-			"Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-	},
-];
 
 const CartPage = () => {
-	const [open, setOpen] = useState(true);
 	const {isAuthinticated}=useSelector((state)=>state.user)
 	const {cartItems}=useSelector((state)=>state.cart)
 	const dispatch=useDispatch()
-	console.log(cartItems)
+	const [total,setTotal]=useState()
+
 
 useEffect(()=>{
  if(isAuthinticated)
 	dispatch(getAllItemsThunk())
 
 },[isAuthinticated])
+
+useEffect(()=>{
+const totalAmount=cartItems.reduce((accu,item)=>accu+(item.quantity*item.product.price),0)
+
+setTotal(totalAmount)
+
+},[cartItems])
 
 	return (
 		!isAuthinticated ?<div className="w-screen h-screen flex flex-col justify-center items-center gap-3">
@@ -75,7 +44,7 @@ useEffect(()=>{
 					<ul role="list" className="-my-6 divide-y divide-gray-300">
 						{cartItems.length>0 && cartItems.map((item) => {
 						
-							return <Cart key={item.product._id} product={item.product} />}
+							return <Cart key={item.product._id} product={item.product} quantity={item.quantity} />}
 						)}
 					</ul>
 				</div>
@@ -84,7 +53,7 @@ useEffect(()=>{
 			<div className="border-t border-gray-200  py-6 ">
 				<div className="flex justify-end gap-5 text-base font-medium text-gray-900">
 					<p>Subtotal</p>
-					<p>$262.00</p>
+					<p>${total}</p>
 				</div>
 				<p className="mt-2 text-sm text-gray-500 flex justify-end">
 					<span>Shipping and taxes calculated at checkout.</span>

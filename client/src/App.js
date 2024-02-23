@@ -11,6 +11,7 @@ import Footer from "./components/Footer.jsx";
 import ProductDetalisPage from "./pages/ProductDetalisPage.jsx";
 import AccountDetalispage from "./pages/AccountDetalispage.jsx";
 import OrderPage from "./pages/OrderPage.jsx";
+import ProductsPage from "./pages/ProductsPage.jsx"
 import { useDispatch, useSelector } from "react-redux";
 import { userDetalisThunk } from "./redux/slice/userSlice.js";
 import Protected from "./components/Protected.jsx";
@@ -20,8 +21,10 @@ import { CircularProgress } from "@mui/material";
 
 function App() {
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
+
     dispatch(userDetalisThunk());
   }, []);
 
@@ -35,6 +38,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/product/:Id" element={<ProductDetalisPage />} />
+          <Route path="/Products" element={<ProductsPage/>}/>
           <Route element={<Protected />}>
             <Route path="/user/account" element={<AccountDetalispage />} />
             <Route path="/user/order" element={<OrderPage />} />

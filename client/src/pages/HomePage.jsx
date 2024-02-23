@@ -2,18 +2,28 @@ import React, { useEffect } from "react";
 import { BsMouse } from "react-icons/bs";
 import axios from "axios";
 import ContentWrapper from "../components/ContentWrapper.jsx";
-
-import useGet from "../hooks/useGet.jsx";
-
+import {useDispatch ,useSelector} from "react-redux"
+import {getAllProductThunk} from "../redux/slice/productSlice.js"
 import Product from "../components/Product.jsx";
-const HomePage = () => {
-	const { data, loading, error } = useGet("/product/?limit=8");
 
-	// console.log(data);
-	// useEffect(()=>{
-	// 	console.log(error?.data?.message)
-	// 		alert.error(error?.data?.message)
-	// 	},[error])
+
+
+
+const HomePage = () => {
+
+	const {products}=useSelector((state)=>state.product)
+	const dispatch=useDispatch()
+	
+
+useEffect(()=>{
+
+dispatch(getAllProductThunk("/?limit=8"))
+
+
+
+},[])
+
+
 
 	return (
 		<>
@@ -34,9 +44,9 @@ const HomePage = () => {
 					Feauture Products
 				</h3>
 				<ContentWrapper>
-					<div className="flex w-full mt-14 justify-between flex-wrap gap-y-10">
-						{!loading &&
-							data?.products?.map((product) => (
+					<div className="grid w-full mt-14 grid-cols-4 gap-y-6 ">
+						{products.length>0 &&
+							products.map((product) => (
 								<Product key={product._id} product={product} />
 							))}
 					</div>

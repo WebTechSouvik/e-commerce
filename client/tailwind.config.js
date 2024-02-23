@@ -9,5 +9,5 @@ module.exports = {
      'nav':['Josefin Sans', 'sans-serif']
     }
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }

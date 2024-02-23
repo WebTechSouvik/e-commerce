@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const addToACart = async (productId, quantity) => {
+	console.log(quantity)
 	const configs = {
 		headers: { "Content-Type": "application/json" },
 		withCredentials: true,

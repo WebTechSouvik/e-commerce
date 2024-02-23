@@ -7,7 +7,9 @@ import {
 
 export const addToCartThunk = createAsyncThunk(
 	"addToCartThunk",
-	async (productId, quantity) => {
+	async (value) => {
+		console.log(value.productId)
+			const {productId,quantity}=value
 		try {
 			return await addToACart(productId, quantity);
 		} catch (err) {
@@ -57,6 +59,19 @@ const cartSlice = createSlice({
 			);
 			state.cartItems = [...newCart];
 		},
+		updateQuantity:(state,action)=>{
+
+			const upadateCart=state.cartItems.map((item)=>{
+
+				if(item.product._id==action.payload.productId)
+					return{...item,quantity:action.payload.quantity}
+				else
+					return item
+			})
+			state.cartItems=[...upadateCart]
+
+
+		}
 	},
 	extraReducers: (builder) => {
 		builder
@@ -97,5 +112,5 @@ const cartSlice = createSlice({
 	},
 });
 
-export const { addToCart,deleteItem } = cartSlice.actions;
+export const { addToCart,deleteItem,updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

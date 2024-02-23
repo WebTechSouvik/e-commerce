@@ -5,11 +5,12 @@ import Apierror from "../utils/customerror.js";
 export const addcartController = asyncHandler(async (req, res) => {
 	const id = req.user;
 	const { productId, quantity } = req.body;
+	console.log(quantity)
 
 	const cart = await Cart.findOne({ owner: id });
 
 	if (!cart) {
-		await Cart.create({ owner: id, cartItems: [{ product: productId }] });
+		await Cart.create({ owner: id, cartItems: [{ product: productId ,quantity}] });
 
 		res.status(201).json({
 			status: "sucess",
@@ -24,7 +25,7 @@ export const addcartController = asyncHandler(async (req, res) => {
 			throw new Apierror("item alredey presnt", 400);
 		}
 
-		cart.cartItems.push({ product: productId, quantity:parseInt(quantity,10) });
+		cart.cartItems.push({ product:productId,quantity});
 		await cart.save();
 
 		res.status(200).json({

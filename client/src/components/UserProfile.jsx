@@ -74,6 +74,7 @@ const UserProfile = () => {
 					},
 					position: "relative",
 					top: "12px",
+					left:"8px"
 				}}
 				icon={
 					<img
