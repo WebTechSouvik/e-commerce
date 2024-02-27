@@ -9,23 +9,14 @@ import {
 	PlusIcon,
 	Squares2X2Icon,
 } from "@heroicons/react/20/solid";
+import { Slider } from "@mui/material";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from "react-redux";
 import Product from "../components/Product.jsx";
 import { getAllProductThunk } from "../redux/slice/productSlice.js";
 
 const filters = [
-	{
-		id: "color",
-		name: "Color",
-		options: [
-			{ value: "white", label: "White", checked: false },
-			{ value: "beige", label: "Beige", checked: false },
-			{ value: "blue", label: "Blue", checked: true },
-			{ value: "brown", label: "Brown", checked: false },
-			{ value: "green", label: "Green", checked: false },
-			{ value: "purple", label: "Purple", checked: false },
-		],
-	},
 	{
 		id: "catagory",
 		name: "Category",
@@ -35,39 +26,29 @@ const filters = [
 			{ value: "watch", label: "Watch", checked: false },
 		],
 	},
-	{
-		id: "size",
-		name: "Size",
-		options: [
-			{ value: "2l", label: "2L", checked: false },
-			{ value: "6l", label: "6L", checked: false },
-			{ value: "12l", label: "12L", checked: false },
-			{ value: "18l", label: "18L", checked: false },
-			{ value: "20l", label: "20L", checked: false },
-			{ value: "40l", label: "40L", checked: true },
-		],
-	},
 ];
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 const ProductsPage = () => {
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-	const [filter, setFilter] = useState({ catagory: null });
+	const [priceValue, setPriceValue] = useState([0, 10000]);
+	const [filter, setFilter] = useState({ catagory: null, price: [0, 10000] });
 	const [link, setLink] = useState("");
 	const { products } = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 
 	const handelFilter = (key, value, e) => {
-		console.log(e);
-
 		if (key == "catagory") {
 			if (e.target.checked) {
 				if (!filter.catagory) {
-					setFilter({ catagory: value });
+					setFilter({ ...filter, catagory: value });
 				} else {
 					setFilter((prev) => {
-						return { catagory: prev.catagory + `,${value}` };
+						return {
+							...prev,
+							catagory: prev.catagory + `,${value}`,
+						};
 					});
 				}
 			} else {
@@ -77,11 +58,14 @@ const ProductsPage = () => {
 					(item) => item != value,
 				);
 				if (newfilterArray.length == 0) {
-					setFilter({ catagory: null });
+					setFilter({ ...filter, catagory: null });
 				} else {
-					setFilter({ catagory: newfilterArray.join() });
+					setFilter({ ...filter, catagory: newfilterArray.join() });
 				}
 			}
+		}
+		if (key == "price") {
+			setFilter({ ...filter, price: [...value] });
 		}
 	};
 
@@ -89,14 +73,15 @@ const ProductsPage = () => {
 		dispatch(getAllProductThunk(link));
 	}, [link]);
 
-
-	
 	useEffect(() => {
+		let newlink = "";
 		if (filter.catagory) {
-			setLink(`?catagory=${filter.catagory}`);
+			newlink = `?catagory=${filter.catagory}&price[gte]=${filter.price[0]}&price[lte]=${filter.price[1]}`;
 		} else {
-			setLink("");
+			newlink = `?price[gte]=${filter.price[0]}&price[lte]=${filter.price[1]}`;
 		}
+
+		setLink(newlink);
 	}, [filter]);
 
 	return (
@@ -235,9 +220,9 @@ const ProductsPage = () => {
 				</Transition.Root>
 
 				<main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-					<div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-						<h1 className="text-4xl font-bold tracking-tight text-gray-900">
-							New Arrivals
+					<div className="flex items-baseline justify-between pb-6 pt-24">
+						<h1 className="border-b border-solid  border-black w-max m-auto px-5 text-2xl pb-2">
+							Products
 						</h1>
 
 						<div className="flex items-center">
@@ -257,7 +242,7 @@ const ProductsPage = () => {
 
 					<section
 						aria-labelledby="products-heading"
-						className="pb-24 pt-6"
+						className="pb-24 pt-10"
 					>
 						<h2 id="products-heading" className="sr-only">
 							Products
@@ -266,6 +251,7 @@ const ProductsPage = () => {
 						<div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
 							{/* Filters */}
 							<form className="hidden lg:block">
+								<span className="  text-2xl pb-2">Filters</span>
 								{filters.map((section) => (
 									<Disclosure
 										as="div"
@@ -317,7 +303,7 @@ const ProductsPage = () => {
 																		defaultChecked={
 																			option.checked
 																		}
-																		className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+																		className="h-4 w-4 rounded border-gray-600 text-[#ff6347] focus:ring-[#ff6347]"
 																		onChange={(
 																			e,
 																		) =>
@@ -330,7 +316,7 @@ const ProductsPage = () => {
 																	/>
 																	<label
 																		htmlFor={`filter-${section.id}-${optionIdx}`}
-																		className="ml-3 text-sm text-gray-600"
+																		className="ml-3 text-sm text-gray-500"
 																	>
 																		{
 																			option.label
@@ -345,6 +331,46 @@ const ProductsPage = () => {
 										)}
 									</Disclosure>
 								))}
+								<div className="font-medium text-gray-900 mt-3">
+									Price
+								</div>
+								<Slider
+									sx={{ color: "#ff6347" }}
+									size="small"
+									getAriaLabel={() => "Temperature range"}
+									value={priceValue}
+									main={0}
+									max={10000}
+									onChange={(_, newvalue) =>
+										setPriceValue(newvalue)
+									}
+									onChangeCommitted={(e, newvalue) =>
+										handelFilter("price", newvalue, e)
+									}
+									valueLabelDisplay="auto"
+									// getAriaValueText={valuetext}
+								/>
+								<Box
+									sx={{
+										display: "flex",
+										justifyContent: "space-between",
+
+									}}
+								>
+									<Typography
+										variant="body2"
+										
+										sx={{ cursor: "pointer" ,fontWeight:'bold',fontSize:'18px'}}
+									>
+										${priceValue[0]}
+									</Typography>
+									<Typography
+									
+										sx={{ cursor: "pointer" ,fontWeight:'bold',fontSize:'18px' }}
+									>
+											${priceValue[1]}
+									</Typography>
+								</Box>
 							</form>
 
 							{/* Product grid */}

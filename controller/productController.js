@@ -1,9 +1,21 @@
 import { Product } from "../model/productModel.js";
 import asyncHandler from "../utils/asynchandler.js";
 import Apierror from "../utils/customerror.js";
+import { uploadCloudinary } from "../utils/uploadCloudinary.js";
 
 export const createProduct = asyncHandler(async (req, res) => {
-	const product = await Product.create(req.body);
+	console.log(req)
+	let imageArray;
+	if (req.files) {
+		imageArray = await Promise.all(
+			req.files.map(async (file) => await uploadCloudinary(file.path)),
+		);
+	}
+
+	const product = await Product.create({
+		...req.body,
+		images: imageArray.map((image) => image.url),
+	});
 
 	res.status(201).json({
 		message: "product create succesfully",
@@ -23,12 +35,12 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 	}
 
 	if (catagory) {
-	// 	if(typeof catagory=="object")
-	// 	filter.catagory = {$in:[...catagory]}
-	// else
-	// 	filter.catagory = {$in:[catagory]}
-	const catagoryFilter=catagory.split(",")
-		filter.catagory = {$in:[...catagoryFilter]}
+		// 	if(typeof catagory=="object")
+		// 	filter.catagory = {$in:[...catagory]}
+		// else
+		// 	filter.catagory = {$in:[catagory]}
+		const catagoryFilter = catagory.split(",");
+		filter.catagory = { $in: [...catagoryFilter] };
 	}
 
 	if (price) {
@@ -57,6 +69,18 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 		status: "sucess",
 		message: "all prodects feth succesfully",
 		products,
+	});
+});
+
+export const getAdminProduct = asyncHandler(async (req, res) => {
+	console.log("hi");
+
+	const products = await Product.find();
+
+	res.status(201).json({
+		status: "sucess",
+		products,
+		message: "all produts fetch sucessfully",
 	});
 });
 

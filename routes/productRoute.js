@@ -1,16 +1,28 @@
-import {Router} from "express"
+import { Router } from "express";
+import { authorization } from "../middeleware/authMiddleware.js";
+import { isAdmin } from "../middeleware/adminMiddleware.js";
+import {upload} from "../middeleware/multerMiddleware.js"
 
-const router=Router()
+const router = Router();
+
+import {
+	createProduct,
+	getAllProducts,
+	getProduct,
+	updateProduct,
+	deleteProduct,
+	getAdminProduct,
+} from "../controller/productController.js";
 
 
-import {createProduct,getAllProducts,getProduct,updateProduct,deleteProduct} from "../controller/productController.js"
+router.route("/").get(getAllProducts);
+router.route("/details/:Id").get(getProduct);
 
-router.route("/")
-.post(createProduct)
-.get(getAllProducts)
 
-router.route("/:Id")
-.get(getProduct)
-.put(updateProduct)
-.delete(deleteProduct)
-export default router
+router.use(authorization, isAdmin);
+
+router.route("/admin").post(upload.array("images"),createProduct).get(getAdminProduct)
+router.route("/admin/:Id").put(updateProduct).delete(deleteProduct);
+
+
+export default router;
