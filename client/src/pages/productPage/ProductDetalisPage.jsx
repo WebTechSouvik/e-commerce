@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import ContentWrapper from "../components/ContentWrapper.jsx";
+import ContentWrapper from "../../components/ContentWrapper.jsx";
 import StarRatings from "react-star-ratings";
 import { useParams } from "react-router-dom";
-
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaChevronRight } from "react-icons/fa";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, addToCartThunk } from "../redux/slice/cartSlice.js";
-import {getAllProductThunk,getSingleProductThunk} from "../redux/slice/productSlice.js"
+import { addToCart, addToCartThunk } from "../../redux/slice/cartSlice.js";
+import {getAllProductThunk,getSingleProductThunk} from "../../redux/slice/productSlice.js"
 
 const ProductDetalisPage = () => {
 	const [change, setchange] = useState(0);
@@ -67,7 +66,7 @@ const ProductDetalisPage = () => {
 				
 		if (items.length == 0) {
 			dispatch(addToCart(newItem));
-			dispatch(addToCartThunk(product._id, quantity));
+			dispatch(addToCartThunk(value));
 		} else {
 			const ispresent = items.some(
 				(item) => product._id == item.product._id,

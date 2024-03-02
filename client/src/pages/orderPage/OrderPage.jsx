@@ -1,10 +1,14 @@
 import React from 'react'
 
+
 const OrderPage = () => {
 	return (
-		<div>
-			order
-		</div>
+		<>
+    <div className="grid grid-cols-4">
+        
+    </div>
+	
+		</>
 	)
 }
 

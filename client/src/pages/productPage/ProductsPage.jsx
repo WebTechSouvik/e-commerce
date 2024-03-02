@@ -13,32 +13,24 @@ import { Slider } from "@mui/material";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from "react-redux";
-import Product from "../components/Product.jsx";
-import { getAllProductThunk } from "../redux/slice/productSlice.js";
+import Product from "../../components/Product.jsx";
+import { getAllProductThunk,updateFilter } from "../../redux/slice/productSlice.js";
 
-const filters = [
-	{
-		id: "catagory",
-		name: "Category",
-		options: [
-			{ value: "shirt", label: "Shirt", checked: false },
-			{ value: "laptop", label: "Laptop", checked: false },
-			{ value: "watch", label: "Watch", checked: false },
-		],
-	},
-];
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
+
+
+
 const ProductsPage = () => {
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-	const [priceValue, setPriceValue] = useState([0, 10000]);
-	const [filter, setFilter] = useState({ catagory: null, price: [0, 10000] });
+	const [priceValue, setPriceValue] = useState([0, 100000]);
+	const [filter, setFilter] = useState({ catagory: null, price: [0, 100000] });
 	const [link, setLink] = useState("");
-	const { products } = useSelector((state) => state.product);
+	const { products,filterItem } = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 
-	const handelFilter = (key, value, e) => {
+	const handelFilter = (key,value,label,e) => {
 		if (key == "catagory") {
 			if (e.target.checked) {
 				if (!filter.catagory) {
@@ -52,23 +44,31 @@ const ProductsPage = () => {
 					});
 				}
 			} else {
-				const filterArray = filter.catagory.split(",");
+				const filterArray = filter?.catagory?.split(",");
 
-				const newfilterArray = filterArray.filter(
+				const newfilterArray = filterArray?.filter(
 					(item) => item != value,
 				);
-				if (newfilterArray.length == 0) {
+				if (newfilterArray?.length == 0) {
 					setFilter({ ...filter, catagory: null });
 				} else {
-					setFilter({ ...filter, catagory: newfilterArray.join() });
+					setFilter({ ...filter, catagory: newfilterArray?.join() });
 				}
 			}
 		}
-		if (key == "price") {
-			setFilter({ ...filter, price: [...value] });
-		}
+		dispatch(updateFilter({id:key,label}))
+		
 	};
 
+
+
+const handelPrice=(value)=>{
+
+
+setFilter({ ...filter, price: [...value] });
+
+
+}
 	useEffect(() => {
 		dispatch(getAllProductThunk(link));
 	}, [link]);
@@ -140,7 +140,7 @@ const ProductsPage = () => {
 
 									{/* Filters */}
 									<form className="mt-4 border-t border-gray-200">
-										{filters.map((section) => (
+										{filterItem.map((section) => (
 											<Disclosure
 												as="div"
 												key={section.id}
@@ -252,7 +252,7 @@ const ProductsPage = () => {
 							{/* Filters */}
 							<form className="hidden lg:block">
 								<span className="  text-2xl pb-2">Filters</span>
-								{filters.map((section) => (
+								{filterItem.map((section) => (
 									<Disclosure
 										as="div"
 										key={section.id}
@@ -305,12 +305,13 @@ const ProductsPage = () => {
 																		}
 																		className="h-4 w-4 rounded border-gray-600 text-[#ff6347] focus:ring-[#ff6347]"
 																		onChange={(
-																			e,
+																			e
 																		) =>
 																			handelFilter(
 																				section.id,
 																				option.value,
-																				e,
+																				option.label,
+																				e
 																			)
 																		}
 																	/>
@@ -340,12 +341,12 @@ const ProductsPage = () => {
 									getAriaLabel={() => "Temperature range"}
 									value={priceValue}
 									main={0}
-									max={10000}
+									max={100000}
 									onChange={(_, newvalue) =>
 										setPriceValue(newvalue)
 									}
 									onChangeCommitted={(e, newvalue) =>
-										handelFilter("price", newvalue, e)
+										handelPrice( newvalue)
 									}
 									valueLabelDisplay="auto"
 									// getAriaValueText={valuetext}

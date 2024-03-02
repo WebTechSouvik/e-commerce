@@ -1,10 +1,10 @@
 import { Fragment, useState,useEffect } from "react";
-import ContentWrapper from "../components/ContentWrapper.jsx";
-import Cart from "../components/Cart.jsx";
+import ContentWrapper from "../../components/ContentWrapper.jsx";
+import Cart from "../../components/Cart.jsx";
 import {useSelector,useDispatch} from "react-redux"
 import { FaShoppingCart } from "react-icons/fa"
 import { Link } from "react-router-dom";
-import {getAllItemsThunk} from "../redux/slice/cartSlice.js"
+import {getAllItemsThunk} from "../../redux/slice/cartSlice.js"
 
 
 const CartPage = () => {
@@ -44,7 +44,7 @@ setTotal(totalAmount)
 					<ul role="list" className="-my-6 divide-y divide-gray-300">
 						{cartItems.length>0 && cartItems.map((item) => {
 						
-							return <Cart key={item.product._id} product={item.product} quantity={item.quantity} />}
+							return <Cart key={item.product._id} product={item.product} quantity={item.quantity} isCartPAge={true} />}
 						)}
 					</ul>
 				</div>

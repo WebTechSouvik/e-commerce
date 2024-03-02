@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {getAllProduct,getSingleProduct} from "../../utilis/productApi.js"
-
+import {filters} from "../../constant/productConstant.js"
 
 export const getAllProductThunk=createAsyncThunk(
 	"getAllProductThunk",
@@ -34,11 +34,29 @@ const productSlice=createSlice({
 		loading:false,
 		product:null,
 		products:[],
+		filterItem:[...filters],
 		message:"",
 		error:null
 
 	},
 
+reducers:{
+	updateFilter:(state,action)=>{
+		console.log(action.payload)
+		const selectedItem=state.filterItem.find((item)=>item.id==action.payload.id)
+
+		const updatedoption=selectedItem.options.map((option)=>{
+			if(option.label==action.payload.label){
+				return{...option,checked:!option.checked}
+			}
+			else
+				return option
+		})
+		const updatedSelectedItem={...selectedItem,options:updatedoption}
+
+		state.filterItem=state.filterItem.map((item)=>item.id==action.payload.id?updatedSelectedItem:item)
+	}
+},
 
 extraReducers:(builder)=>{
 			builder
@@ -72,4 +90,6 @@ extraReducers:(builder)=>{
 }
 
 })
+
+export const { updateFilter } = productSlice.actions;
 export default productSlice.reducer;

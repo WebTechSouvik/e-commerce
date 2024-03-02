@@ -5,7 +5,7 @@ import Apierror from "../utils/customerror.js";
 export const addcartController = asyncHandler(async (req, res) => {
 	const id = req.user;
 	const { productId, quantity } = req.body;
-	console.log(quantity)
+	console.log(productId)
 
 	const cart = await Cart.findOne({ owner: id });
 

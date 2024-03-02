@@ -69,7 +69,7 @@ const userSlice = createSlice({
 				state.loading = true;
 			})
 			.addCase(userDetalisThunk.fulfilled, (state, action) => {
-				state.user = action.payload;
+				state.user = action.payload.user;
 				state.isAuthinticated = true;
 				state.loading = false;
 			})

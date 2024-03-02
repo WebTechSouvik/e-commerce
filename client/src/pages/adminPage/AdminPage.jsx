@@ -10,7 +10,7 @@ const AdminPage = () => {
 			</h3>*/}
 			<div className="lg:grid grid-cols-4 ">
 				<AdminSideBar />
-				<div className="lg:col-span-3 mt-5 lg:mt-0 ">
+				<div className="lg:col-span-4 mt-5 lg:mt-0 lg:ml-[337px] lg:px-5">
 				<Outlet />
 				</div>
 			</div>

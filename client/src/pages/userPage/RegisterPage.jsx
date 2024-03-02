@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import Profile from "../images/Profile.png";
-import { userRegisterThunk } from "../redux/slice/userSlice.js";
+import Profile from "../../images/Profile.png";
+import { userRegisterThunk } from "../../redux/slice/userSlice.js";
 import { useDispatch } from "react-redux";
 
 const RegisterPage = () => {

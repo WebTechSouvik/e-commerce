@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteItem, deleteItemsThunk,updateQuantity } from "../redux/slice/cartSlice.js";
 
-function Cart({ product, quantity }) {
+function Cart({ product, quantity,isCartPAge }) {
 	const { cartItems } = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
 	const[amount,setAmount]=useState(quantity)
@@ -51,11 +51,15 @@ dispatch(updateQuantity({productId:product._id,quantity:amount}))
 					</p>
 				</div>
 				<div className="flex flex-1 items-center justify-between text-sm">
-					<div className="flex ">
+				{
+
+					isCartPAge?<div className="flex ">
 						<button className="px-1 bg-gray-600" onClick={() => handelQun(1)}>+</button>
 						<p className="px-2  ">{amount}</p>
 						<button className="px-1 b bg-gray-600 " onClick={() => handelQun(-1)}>-</button>
-					</div>
+					</div>:<div className="flex flex-row gap-1 justify-center"><span className="text-[15px] font-semibold">Qty :</span><span className="text-gray-500 text-[15px]">{quantity}</span></div>
+				}
+					
 
 					<div className="flex">
 						<button
