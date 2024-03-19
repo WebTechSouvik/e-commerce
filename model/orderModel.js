@@ -18,11 +18,17 @@ shipingInfo:{
 			required:[true,"pincode is requried"]
 				
 			},
-			contry:{
+			country:{
 				type:String,
-			required:[true,"contry name is requried"]
+			required:[true,"country name is requried"]
 				
 			},
+			state:{
+			type:String,
+			required:[true,"state name is requried"]
+				
+			},
+		
 			phoneNumber:{
 				type:Number,
 			required:[true,"phoneNumber is requried"]
@@ -42,7 +48,7 @@ orderItems:[{
 				default:1
 			},
 
-			Price:{
+			price:{
 				type:Number,
 				required:[true,"total price is requried for each product"]
 			}

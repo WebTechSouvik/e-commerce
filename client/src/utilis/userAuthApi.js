@@ -31,7 +31,7 @@ export const userRegister = async (registerInfo) => {
 		},
 	};
 	const { data } = await axios.post(
-		"http://localhost:8000/api/v1/user/register",
+		"http://192.168.0.105:8000/api/v1/user/register",
 		registerInfo,
 		config,
 	);

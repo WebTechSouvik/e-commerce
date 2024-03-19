@@ -17,7 +17,7 @@ router.route("/").post(createOrder).get(isAdmin, getAllorder);
 router.route("/user").get(userOrders);
 router
 	.route("/:Id")
-	.get(isAdmin, getSingleOrder)
+	.get(getSingleOrder)
 	.put(isAdmin, updateOrder)
 	.delete(isAdmin, deleteOrder);
 

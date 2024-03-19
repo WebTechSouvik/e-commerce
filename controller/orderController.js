@@ -14,7 +14,7 @@ export const createOrder = asyncHandler(async (req, res) => {
 
 export const getSingleOrder = asyncHandler(async (req, res) => {
 	const order = await Order.findById(req.params.Id)
-		.populate("orderItems.product", ["name", "price"])
+		.populate("orderItems.product", ["name", "price","images"])
 		.populate("customer", ["fullname", "username"]);
 
 	if (!order) {
@@ -73,6 +73,6 @@ export const deleteOrder=asyncHandler(async(req,res)=>{
 
 	const removeProduct=await Order.findByIdAndDelete(req.params.Id)
 
-	res.status(201).json({status:"sucess",message:"product deleted sucessfully"})
+	res.status(201).json({status:"sucess",message:"order deleted sucessfully"})
 
 })

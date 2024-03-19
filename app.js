@@ -6,7 +6,7 @@ import fileupload from "express-fileupload"
 
 const app = express();
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:["http://192.168.0.105:3000","http://localhost:3000"],
     credentials: true
 }))
 app.use(express.json({ limit: "16kb" }));
@@ -18,10 +18,13 @@ import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
 import orderRouter from "./routes/orderRoute.js"
 import cartRouter from "./routes/cartRoute.js"
+import paymentRouter from "./routes/paymentRoute.js"
+
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/order",orderRouter)
 app.use("/api/v1/cart",cartRouter)
+app.use("/api/v1/payment",paymentRouter)
 
 app.use(errorhaldeler);
 

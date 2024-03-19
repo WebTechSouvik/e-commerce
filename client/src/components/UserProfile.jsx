@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { userLogoutThunk } from "../redux/slice/userSlice.js";
 import { useNavigate } from "react-router-dom";
+import {toast} from 'sonner'
 const UserProfile = () => {
 	const user = useSelector((state) => state.user.user);
 	const dispatch = useDispatch();
@@ -17,13 +18,13 @@ const UserProfile = () => {
 	const [show, setShow] = useState(false);
 
 	const Close = (reason) => {
-		if (reason === "toggle") {
+		if (reason === "mouseLeave"||"toggle") {
 			console.log("hi");
 			setShow(false);
 		}
 	};
 	const Open = (reason) => {
-		if (reason === "toggle") {
+		if (reason === "mouseEnter"||"toggle") {
 			setShow(true);
 		}
 	};
@@ -33,12 +34,13 @@ const UserProfile = () => {
 	};
 	const navigateOrder = () => {
 		setShow(false);
-		navigate("/user/order");
+		navigate("/order/me");
 	};
 	const handelLogout = () => {
 		setShow(false);
 		dispatch(userLogoutThunk());
 		navigate("/", { replace: true });
+		toast.success("Logout sucessfull")
 	};
 	const handelLogin = () => {
 		navigate("/login");
@@ -82,9 +84,10 @@ const UserProfile = () => {
 						height: 36,
 						backgroundColor: "transparent",
 					},
-					position: "relative",
+					position: "absolute",
 					top: "12px",
-					left: "8px",
+					right:"43px"
+					
 				}}
 				icon={
 					<img

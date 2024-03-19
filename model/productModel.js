@@ -19,9 +19,14 @@ const productSchema= new mongoose.Schema({
 		type:String,
 		required:[true,"catagory shouild be included"]
 	},
-	 images:[{
-
-	 type:String
+	 images:[ {
+		public_id:{
+			type: String,
+		},
+		url:{
+			type: String,
+		}
+		
 	}
 	 ],
 	 stock:{

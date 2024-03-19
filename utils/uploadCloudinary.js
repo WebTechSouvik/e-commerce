@@ -13,14 +13,12 @@ export const uploadCloudinary = async (path) => {
         const response = await cloudinary.uploader.upload(path, {
             resource_type: "auto",
         });
-        // await fs.unlink(path);
+        await fs.unlink(path);
         return response;
-        console.log("hi");
+      
     } catch (err) {
-        console.log(err);
+       
 
-        fs.unlink(path, (err) => {
-            console.log(err);
-        });
+        await fs.unlink(path);
     }
 };

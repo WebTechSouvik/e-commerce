@@ -55,6 +55,9 @@ reducers:{
 		const updatedSelectedItem={...selectedItem,options:updatedoption}
 
 		state.filterItem=state.filterItem.map((item)=>item.id==action.payload.id?updatedSelectedItem:item)
+	},
+	clearError:(state,action)=>{
+		state.error=null
 	}
 },
 
@@ -91,5 +94,5 @@ extraReducers:(builder)=>{
 
 })
 
-export const { updateFilter } = productSlice.actions;
+export const { updateFilter,clearError } = productSlice.actions;
 export default productSlice.reducer;

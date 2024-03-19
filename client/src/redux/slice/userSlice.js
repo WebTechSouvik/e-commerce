@@ -47,10 +47,16 @@ export const userLogoutThunk = createAsyncThunk("userLogoutThunk", async () => {
 const userSlice = createSlice({
 	name: "user",
 	initialState: {
-		loading: true,
+		loading: false,
+		message:null,
 		user: null,
 		isAuthinticated: false,
 		error: null,
+	},
+	reducers:{
+		clearError:(state,action)=>{
+			state.error=null
+		}
 	},
 	extraReducers: (builder) => {
 		builder
@@ -60,6 +66,7 @@ const userSlice = createSlice({
 			.addCase(userLoginThunk.fulfilled, (state, action) => {
 				state.isAuthinticated = true;
 				state.loading = false;
+				state.error = null;
 			})
 			.addCase(userLoginThunk.rejected, (state, action) => {
 				state.error = action.error;
@@ -72,6 +79,7 @@ const userSlice = createSlice({
 				state.user = action.payload.user;
 				state.isAuthinticated = true;
 				state.loading = false;
+				state.error = null;
 			})
 			.addCase(userDetalisThunk.rejected, (state, action) => {
 				state.error = action.error;
@@ -81,9 +89,11 @@ const userSlice = createSlice({
 				state.loading = true;
 			})
 			.addCase(userRegisterThunk.fulfilled, (state, action) => {
-				state.user = action.payload;
+				state.user = action.payload.user;
+				state.message=action.payload.message
 				state.isAuthinticated = true;
 				state.loading = false;
+				state.error = null;
 			})
 			.addCase(userRegisterThunk.rejected, (state, action) => {
 				state.error = action.error;
@@ -96,6 +106,7 @@ const userSlice = createSlice({
 				state.user = null;
 				state.isAuthinticated = false;
 				state.loading = false;
+				state.error = null;
 			})
 			.addCase(userLogoutThunk.rejected, (state, action) => {
 				state.error = action.error;
@@ -103,5 +114,5 @@ const userSlice = createSlice({
 			});
 	},
 });
-
+export const {clearError } = userSlice.actions;
 export default userSlice.reducer;

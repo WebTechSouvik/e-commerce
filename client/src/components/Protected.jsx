@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet,useNavigate } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import Loading from "./Loading.jsx"
 
 const Protected = ({isadmin}) => {
 	const navigate=useNavigate()
@@ -9,9 +9,7 @@ const Protected = ({isadmin}) => {
 
 	
 	if(loading){
-		return <div className="w-screen h-screen flex justify-center items-center">
-			<CircularProgress size={80} />
-		</div>
+		return <Loading/>
 	}
 	else{
 		if(isadmin && isAuthinticated && user.role=="admin"){

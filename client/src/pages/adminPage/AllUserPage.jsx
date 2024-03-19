@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	getAdminProductThunk,
+	getAllUserThunk,
 	clearMessage,
 	clearError,
 } from "../../redux/slice/adminSlice.js";
 import DataTable from "../../components/DataTable.jsx";
-import { productColumns } from "../../constant/adminConstant.js";
+import { userColumns } from "../../constant/adminConstant.js";
 import Loading from "../../components/Loading.jsx";
 import { toast } from "sonner";
 
-function AllProduct() {
+const AllUserPage = () => {
 	const dispatch = useDispatch();
-	const { products, message, error, loading } = useSelector(
+	const { users, message, error, loading } = useSelector(
 		(state) => state.admin,
 	);
 	const [row, setRow] = useState([]);
 
 	useEffect(() => {
-		dispatch(getAdminProductThunk());
+		dispatch(getAllUserThunk());
 	}, []);
 
 	useEffect(() => {
-		if (products.length > 0) {
-			const tempRow = products.map((product) => {
+		if (users.length > 0) {
+			const tempRow = users.map((user) => {
 				return {
-					id: product._id,
-					productId: product._id,
-					productName: product.name,
-					stock: product.stock,
-					price: product.price,
+					id: user._id,
+					userId: user._id,
+					name: user.fullname,
+					email: user.email,
+					role: user.role,
 				};
 			});
 			setRow(tempRow);
 		}
-	}, [products]);
+	}, [users]);
 
 	useEffect(() => {
 		if (message) {
@@ -51,9 +51,9 @@ function AllProduct() {
 	return (
 		<>
 			{loading && <Loading />}
-			<DataTable colInfo={productColumns} rowInfo={row} />
+			<DataTable colInfo={userColumns} rowInfo={row} />
 		</>
 	);
 }
 
-export default AllProduct;
+export default AllUserPage

@@ -5,7 +5,7 @@ import Apierror from "../utils/customerror.js";
 export const addcartController = asyncHandler(async (req, res) => {
 	const id = req.user;
 	const { productId, quantity } = req.body;
-	console.log(productId)
+	
 
 	const cart = await Cart.findOne({ owner: id });
 
@@ -59,7 +59,7 @@ export const deleteItemController = asyncHandler(async (req, res) => {
 
 	return res
 		.status(200)
-		.json({ status: "sucess", message: "itme remove from cart" });
+		.json({ status: "sucess", message: "item remove from cart" });
 });
 
 // todo create udadte count controller

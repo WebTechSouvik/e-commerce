@@ -2,33 +2,38 @@ import React from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import { GiConfirmed } from "react-icons/gi";
 import { MdLocalShipping, MdLibraryAddCheck } from "react-icons/md";
 import { BsBank2 } from "react-icons/bs";
 
-const steps = [
-	{
-		name: "Shipping Details",
-		icon: <MdLocalShipping className="lg:text-2xl" />,
-	},
-	{
-		name: "Confirm Order",
-		icon: <MdLibraryAddCheck className="lg:text-2xl" />,
-	},
-	{ name: "Payment", icon: <BsBank2 className="lg:text-2xl" /> },
-];
 
-function OrderStep({active}) {
+
+function OrderStep({active,steps}) {
+
+const style={
+	"& .Mui-completed":{
+		"&.MuiSvgIcon-root":{color:"green"},
+		"&.MuiStepLabel-iconContainer":{color:"green"},
+		"& .MuiStepConnector-line":{borderColor:"green"}
+		
+	},
+	"& .Mui-active":{
+		"&.MuiSvgIcon-root":{color:"#ff6347"},
+		"&.MuiStepLabel-iconContainer":{color:"#ff6347"},
+		"& .MuiStepConnector-line":{borderColor:"green"}
+	}
+}
+
+
 	return (
-		<Stepper activeStep={active} alternativeLabel>
+		<Stepper activeStep={active}  alternativeLabel  sx={style}>
 			{steps.map((label,index) => (
-				<Step key={label}>
+				<Step key={label.name} >
 					<StepLabel
-						icon={label.icon}
-						sx={{
-							".Mui-completed": { color: "green" },
+						// icon={label.icon||<GiConfirmed className="lg:text-2xl"/>}
+						{...(label.icon && {icon:label.icon}) }
 
-							".Mui-active": { color: "#ff6347" },
-						}}
+						
 					>
 						{label.name}
 					</StepLabel>

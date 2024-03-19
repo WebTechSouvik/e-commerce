@@ -1,12 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import Profile from "../../images/Profile.png";
-import { userRegisterThunk } from "../../redux/slice/userSlice.js";
-import { useDispatch } from "react-redux";
+import { userRegisterThunk,clearError } from "../../redux/slice/userSlice.js";
+import { useDispatch,useSelector } from "react-redux";
+import Loading from "../../components/Loading.jsx"
+import { toast } from "sonner";
 
 const RegisterPage = () => {
 	const [filePreview, setFilePreview] = useState();
 	const ref = useRef();
 	const dispatch = useDispatch();
+	const {loading,message,error}=useSelector((state)=>state.user)
 
 	const regidterSubmit = (e) => {
 		e.preventDefault();
@@ -24,8 +27,18 @@ const RegisterPage = () => {
 		};
 		filereader.readAsDataURL(e.target.files[0]);
 	};
+useEffect(()=>{
+	if(message)
+		toast.success(message)
 
+if(error){
+	toast.error(error.message);
+	dispatch(clearError())
+}
+
+},[error,message])
 	return (
+		<>
 		<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 mt-20">
 			<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 				<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -153,6 +166,8 @@ const RegisterPage = () => {
 				</form>
 			</div>
 		</div>
+		{loading && <Loading/>}
+		</>
 	);
 };
 

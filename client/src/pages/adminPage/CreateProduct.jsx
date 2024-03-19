@@ -1,20 +1,32 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef ,useEffect} from "react";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { RxCross2 } from "react-icons/rx";
-import { useDispatch } from "react-redux";
-import { createproductThunk } from "../../redux/slice/adminSlice.js";
+import { useDispatch,useSelector } from "react-redux";
+import {useParams} from 'react-router-dom'
+import { createproductThunk,updateProductThunk,clearError,clearMessage} from "../../redux/slice/adminSlice.js";
+import Loading from "../../components/Loading.jsx"
+import {toast} from "sonner"
 
 function CreateProduct() {
 	const [images, setImages] = useState([]);
+	const [product,setproduct]=useState({})
+
 	const dispatch = useDispatch();
 	const ref = useRef();
+	const {Id}=useParams()
+	const {loading,message,error,products}=useSelector((state)=>state.admin)
 
 	const onsubmit = (e) => {
 		e.preventDefault();
 
 		const fromdata = new FormData(ref.current);
 
+		if(Id){
+			dispatch(updateProductThunk({id:Id,productInfo:fromdata}))
+		}
+		else{
 		dispatch(createproductThunk(fromdata));
+	}
 	};
 
 	const handelchange = (e) => {
@@ -32,9 +44,38 @@ function CreateProduct() {
 		}
 	};
 
+useEffect(()=>{
+
+	if(Id){
+	const tempProduct=products.filter((product)=>product._id==Id)
+	setproduct(tempProduct[0])
+	setImages([...tempProduct[0].images])
+}
+else{
+	console.log("hi")
+	setproduct(null)
+	setImages([])
+}
+
+},[Id])
+
+useEffect(()=>{
+	if(message){
+		toast.success(message)
+		dispatch(clearMessage())
+	}
+
+if(error){
+	toast.error(error.message);
+	dispatch(clearError())
+}
+
+},[error,message])
+
 	return (
 		<>
 			<form className="px-4" onSubmit={(e) => onsubmit(e)} ref={ref}>
+			{loading&& <Loading/>}
 				<div className="space-y-12">
 					<div className="border-b border-gray-900/10 pb-12">
 						<h2 className="text-base font-semibold leading-7 text-gray-900 text-center">
@@ -58,6 +99,8 @@ function CreateProduct() {
 											autoComplete="username"
 											className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
 											placeholder="Product name"
+											onChange={(e)=>setproduct({...product,name:e.target.value})}
+											value={product?product.name:""}
 										/>
 									</div>
 								</div>
@@ -75,8 +118,9 @@ function CreateProduct() {
 										id="about"
 										name="description"
 										rows={3}
-										className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-										defaultValue={""}
+									    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+										onChange={(e)=>setproduct({...product,description:e.target.value})}
+										value={product?product.description:""}
 									/>
 								</div>
 								<p className="mt-3 text-sm leading-6 text-gray-600">
@@ -98,6 +142,8 @@ function CreateProduct() {
 											id="username"
 											className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
 											placeholder="Product price"
+										onChange={(e)=>setproduct({...product,price:e.target.value})}											
+										value={product?product.price:""}
 										/>
 									</div>
 								</div>
@@ -118,6 +164,8 @@ function CreateProduct() {
 											autoComplete="username"
 											className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
 											placeholder="Catagory"
+											onChange={(e)=>setproduct({...product,catagory:e.target.value})}
+											value={product?product.catagory:""}
 										/>
 									</div>
 								</div>
@@ -138,6 +186,8 @@ function CreateProduct() {
 											autoComplete="username"
 											className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
 											placeholder="Stock"
+											onChange={(e)=>setproduct({...product,stock:e.target.value})}
+											value={product?product.stock:""}
 										/>
 									</div>
 								</div>
@@ -171,7 +221,7 @@ function CreateProduct() {
 													</div>
 												))}
 										</div>
-										<div className="mt-4 flex justify-center text-sm leading-6 text-gray-600">
+										{! Id && <><div className="mt-4 flex justify-center text-sm leading-6 text-gray-600">
 											<label
 												htmlFor="file-upload"
 												className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
@@ -193,7 +243,7 @@ function CreateProduct() {
 										</div>
 										<p className="text-xs leading-5 text-gray-600">
 											PNG, JPG, GIF up to 10MB
-										</p>
+										</p></>}
 									</div>
 								</div>
 							</div>

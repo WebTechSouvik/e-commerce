@@ -4,7 +4,7 @@ import Apierror from "../utils/customerror.js";
 import { uploadCloudinary } from "../utils/uploadCloudinary.js";
 
 export const createProduct = asyncHandler(async (req, res) => {
-	console.log(req)
+	console.log(req);
 	let imageArray;
 	if (req.files) {
 		imageArray = await Promise.all(
@@ -14,7 +14,10 @@ export const createProduct = asyncHandler(async (req, res) => {
 
 	const product = await Product.create({
 		...req.body,
-		images: imageArray.map((image) => image.url),
+		images: imageArray.map((image) => ({
+			public_id: image.public_id,
+			url: image.secure_url,
+		})),
 	});
 
 	res.status(201).json({
@@ -26,7 +29,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 
 export const getAllProducts = asyncHandler(async (req, res) => {
 	const { query, page, limit, catagory, price } = req.query;
-	console.log(catagory);
+	console.log("hi");
 
 	const filter = {};
 
@@ -98,6 +101,7 @@ export const getProduct = asyncHandler(async (req, res) => {
 });
 
 export const updateProduct = asyncHandler(async (req, res) => {
+	console.log(req.body);
 	const newProduct = await Product.findByIdAndUpdate(
 		req.params.Id,
 		req.body,

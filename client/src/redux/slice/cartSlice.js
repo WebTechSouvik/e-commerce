@@ -71,6 +71,9 @@ const cartSlice = createSlice({
 			state.cartItems=[...upadateCart]
 
 
+		},
+		clearMessage:(state,action)=>{
+			state.message=null
 		}
 	},
 	extraReducers: (builder) => {
@@ -91,7 +94,7 @@ const cartSlice = createSlice({
 			})
 			.addCase(getAllItemsThunk.fulfilled, (state, action) => {
 				state.cartItems = [...action.payload.allItems];
-				state.message = action.payload.message;
+				
 				state.loading = false;
 			})
 			.addCase(getAllItemsThunk.rejected, (state, action) => {
@@ -112,5 +115,5 @@ const cartSlice = createSlice({
 	},
 });
 
-export const { addToCart,deleteItem,updateQuantity } = cartSlice.actions;
+export const { addToCart,deleteItem,updateQuantity,clearMessage } = cartSlice.actions;
 export default cartSlice.reducer;

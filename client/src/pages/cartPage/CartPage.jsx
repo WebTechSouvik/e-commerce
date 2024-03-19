@@ -1,51 +1,90 @@
-import { Fragment, useState,useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import ContentWrapper from "../../components/ContentWrapper.jsx";
 import Cart from "../../components/Cart.jsx";
-import {useSelector,useDispatch} from "react-redux"
-import { FaShoppingCart } from "react-icons/fa"
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import {getAllItemsThunk} from "../../redux/slice/cartSlice.js"
-
+import {
+	getAllItemsThunk,
+	deleteItem,
+	deleteItemsThunk,
+	clearMessage,
+} from "../../redux/slice/cartSlice.js";
+import { toast } from "sonner";
 
 const CartPage = () => {
-	const {isAuthinticated}=useSelector((state)=>state.user)
-	const {cartItems}=useSelector((state)=>state.cart)
-	const dispatch=useDispatch()
-	const [total,setTotal]=useState()
+	const { isAuthinticated } = useSelector((state) => state.user);
+	const { cartItems, message } = useSelector((state) => state.cart);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [total, setTotal] = useState();
+	const [productId, setProductId] = useState();
 
+	const removeItem = (id) => {
+		dispatch(deleteItemsThunk(id));
+		setProductId(id);
+	};
 
-useEffect(()=>{
- if(isAuthinticated)
-	dispatch(getAllItemsThunk())
+	useEffect(() => {
+		if (isAuthinticated) dispatch(getAllItemsThunk());
+	}, [isAuthinticated]);
 
-},[isAuthinticated])
+	useEffect(() => {
+		const totalAmount = cartItems.reduce(
+			(accu, item) => accu + item.quantity * item.product.price,
+			0,
+		);
 
-useEffect(()=>{
-const totalAmount=cartItems.reduce((accu,item)=>accu+(item.quantity*item.product.price),0)
+		setTotal(totalAmount);
+	}, [cartItems]);
 
-setTotal(totalAmount)
+	useEffect(() => {
+	
+		if (message) {
+			toast.success(message);
+			dispatch(deleteItem(productId));
+			dispatch(clearMessage());
+		}
+	}, [message, productId]);
 
-},[cartItems])
-
-	return (
-		!isAuthinticated ?<div className="w-screen h-screen flex flex-col justify-center items-center gap-3">
-		<div className="h-1/3">
-		<img src="https://www.business2community.com/wp-content/uploads/2014/09/187841511.jpg" alt="" className="h-full mix-blend-darken"/ >
+	return !isAuthinticated ? (
+		<div className="w-screen h-screen flex flex-col justify-center items-center gap-3">
+			<div className="h-1/3">
+				<img
+					src="https://www.business2community.com/wp-content/uploads/2014/09/187841511.jpg"
+					alt=""
+					className="h-full mix-blend-darken"
+				/>
+			</div>
+			<p>Login to see the items you added previously</p>
+			<Link
+				to="/login"
+				className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-2 w-36 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+			>
+				Login
+			</Link>
 		</div>
-		<p>Login to see the items you added previously</p>
-		<Link to="/login" className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-2 w-36 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Login</Link>
-			
-		</div>
-
-
-		:<ContentWrapper>
+	) : (
+		<ContentWrapper>
 			<div className="mt-40 bg-white px-2 py-5">
 				<div className="flow-root">
-					<ul role="list" className="-my-6 divide-y divide-gray-300">
-						{cartItems.length>0 && cartItems.map((item) => {
-						
-							return <Cart key={item.product._id} product={item.product} quantity={item.quantity} isCartPAge={true} />}
-						)}
+					<ul
+						role="list"
+						className="-my-6 divide-y divide-gray-300"
+						onClick={(e) => removeItem(e.target.id)}
+					>
+						{cartItems.length > 0 &&
+							cartItems.map((item) => {
+								return (
+									<Cart
+										key={item.product._id}
+										product={item.product}
+										quantity={item.quantity}
+										isCartPAge={true}
+									/>
+								);
+							})}
 					</ul>
 				</div>
 			</div>
@@ -59,12 +98,13 @@ setTotal(totalAmount)
 					<span>Shipping and taxes calculated at checkout.</span>
 				</p>
 				<div className="mt-6 flex justify-end">
-					<a
+					<Link
 						href="#"
 						className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-2 w-36 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+						to="/shipping"
 					>
 						Checkout
-					</a>
+					</Link>
 				</div>
 				<div className="mt-6 flex justify-center text-center text-sm text-gray-500">
 					<p>
@@ -80,7 +120,7 @@ setTotal(totalAmount)
 				</div>
 			</div>
 		</ContentWrapper>
-	)
+	);
 };
 
 export default CartPage;
