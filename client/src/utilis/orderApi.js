@@ -11,7 +11,7 @@ const configs={
 	withCredentials:true
 }
 
-const {data}=await axiox.post("http://localhost:8000/api/v1/order",orderInfo,configs)
+const {data}=await axiox.post("/api/v1/order",orderInfo,configs)
 return data;
 
 }
@@ -23,7 +23,7 @@ const configs={
 }
 
 
-const {data}=await axiox("http://localhost:8000/api/v1/order/user",configs)
+const {data}=await axiox("/api/v1/order/user",configs)
 return data
 
 
@@ -37,7 +37,7 @@ export const getOrderDetalis=async(id)=>{
 	}
 
 
-const {data}=await axiox(`http://localhost:8000/api/v1/order/${id}`,configs)
+const {data}=await axiox(`/api/v1/order/${id}`,configs)
 return data
 
 }
@@ -48,7 +48,7 @@ export const getAllOrder=async()=>{
 	const configs ={
 		withCredentials:true
 	}
-	const {data}=await axiox("http://localhost:8000/api/v1/order",configs)
+	const {data}=await axiox("/api/v1/order",configs)
 	return data
 
 }

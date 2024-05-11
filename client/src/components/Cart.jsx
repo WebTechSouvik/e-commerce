@@ -8,17 +8,17 @@ import {
 	clearMessage,
 } from "../redux/slice/cartSlice.js";
 import { toast } from "sonner";
+import { PiCurrencyInrBold } from "react-icons/pi";
+
 
 function Cart({ product, quantity, isCartPAge }) {
 	const { cartItems, message } = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
 	const [amount, setAmount] = useState(quantity);
 
-	const removeItem = () => {
-		
-	
-	};
-	const handelQun = (add) => {
+
+	const handelQun = (add,e) => {
+		e.stopPropagation()
 		if (1 < amount && add < 0) {
 			setAmount(amount + add);
 		}
@@ -54,7 +54,7 @@ function Cart({ product, quantity, isCartPAge }) {
 							</Link>
 						</h3>
 
-						<p className="ml-4">{product.price}</p>
+						<p className="ml-4 flex gap-1 items-center"><PiCurrencyInrBold/>{product.price}</p>
 					</div>
 					<p className="mt-1 text-sm text-gray-500">
 						{product.catagory}
@@ -65,14 +65,14 @@ function Cart({ product, quantity, isCartPAge }) {
 						<div className="flex ">
 							<button
 								className="px-1 bg-gray-600"
-								onClick={() => handelQun(1)}
+								onClick={(e) => handelQun(1,e)}
 							>
 								+
 							</button>
 							<p className="px-2  ">{amount}</p>
 							<button
 								className="px-1 b bg-gray-600 "
-								onClick={() => handelQun(-1)}
+								onClick={(e) => handelQun(-1,e)}
 							>
 								-
 							</button>
@@ -88,7 +88,7 @@ function Cart({ product, quantity, isCartPAge }) {
 						</div>
 					)}
 
-					<div className="flex">
+					{isCartPAge && <div className="flex">
 						<button
 							type="button"
 							className="font-medium text-red-500 hover:text-red-700"
@@ -98,6 +98,7 @@ function Cart({ product, quantity, isCartPAge }) {
 							Remove
 						</button>
 					</div>
+				}
 				</div>
 			</div>
 		</li>

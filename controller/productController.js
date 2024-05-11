@@ -2,9 +2,13 @@ import { Product } from "../model/productModel.js";
 import asyncHandler from "../utils/asynchandler.js";
 import Apierror from "../utils/customerror.js";
 import { uploadCloudinary } from "../utils/uploadCloudinary.js";
+import { v2 as cloudinary } from "cloudinary"
+
+
+// create product by admin
 
 export const createProduct = asyncHandler(async (req, res) => {
-	console.log(req);
+	console.log(req.body);
 	let imageArray;
 	if (req.files) {
 		imageArray = await Promise.all(
@@ -27,9 +31,10 @@ export const createProduct = asyncHandler(async (req, res) => {
 	});
 });
 
+//get all products for user based filter
+
 export const getAllProducts = asyncHandler(async (req, res) => {
 	const { query, page, limit, catagory, price } = req.query;
-	console.log("hi");
 
 	const filter = {};
 
@@ -59,6 +64,12 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 		filter.price = { ...newPrice };
 	}
 
+	const allProducts = await Product.find(filter);
+
+	if (allProducts.length == 0) {
+		throw new Apierror("any products not found", 400);
+	}
+
 	const option = {
 		limit,
 		skip: (page - 1) * limit,
@@ -72,12 +83,14 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 		status: "sucess",
 		message: "all prodects feth succesfully",
 		products,
+		numberOfProducts: allProducts.length,
 	});
 });
 
-export const getAdminProduct = asyncHandler(async (req, res) => {
-	console.log("hi");
 
+// get all products for admin without filter
+
+export const getAdminProduct = asyncHandler(async (req, res) => {
 	const products = await Product.find();
 
 	res.status(201).json({
@@ -87,8 +100,13 @@ export const getAdminProduct = asyncHandler(async (req, res) => {
 	});
 });
 
+// get details for a product
+
 export const getProduct = asyncHandler(async (req, res) => {
-	const product = await Product.findById(req.params.Id);
+	const product = await Product.findById(req.params.Id).populate({
+		path: "reviwes.owner",
+		select: ["fullname", "avtar.url"],
+	});
 
 	if (!product) {
 		throw new Apierror("invalid productId", 400);
@@ -99,6 +117,9 @@ export const getProduct = asyncHandler(async (req, res) => {
 		product,
 	});
 });
+
+
+// update product info by admin
 
 export const updateProduct = asyncHandler(async (req, res) => {
 	console.log(req.body);
@@ -121,15 +142,53 @@ export const updateProduct = asyncHandler(async (req, res) => {
 	});
 });
 
+//delete product by admin
+
 export const deleteProduct = asyncHandler(async (req, res) => {
 	const removeProduct = await Product.findByIdAndDelete(req.params.Id);
 	if (!removeProduct) {
 		throw new Apierror("delete opration unsuccessful,check prodct Id", 400);
 	}
 
+
+removeProduct.images.forEach(async(image)=>await cloudinary.uploader.destroy(image.public_id))
+
+
 	res.status(201).json({
 		status: "sucess",
 		message: "product delete sucessfully",
 		removeProduct,
 	});
+});
+
+//add review for a product
+
+export const addReview = asyncHandler(async (req, res) => {
+	const { rating, description } = req.body;
+	const { Id: productId } = req.params;
+	const id = req.user;
+
+	const product = await Product.findById(productId);
+
+	const isReview = product.reviwes.find((review) => review.owner == id);
+	console.log(id);
+
+	if (isReview) {
+		throw new Apierror("you already review this item",400);
+	}
+
+	product.reviwes.push({ owner: id, rating, description });
+
+	const totalRating = product.reviwes.reduce(
+		(accu, review) => accu + review.rating,
+		0,
+	);
+
+	product.avgRating = totalRating / product.reviwes.length;
+
+	await product.save({ validateBeforeSave: false });
+
+	return res
+		.status(200)
+		.json({ status: "success", message: "review added successful" });
 });

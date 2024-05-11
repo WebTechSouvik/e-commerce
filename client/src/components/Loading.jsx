@@ -11,7 +11,7 @@ const Loading = () => {
 		
 	
 	return (
-		<div className="w-screen h-screen fixed z-10  top-0 left-0">
+		<div className="w-screen min-h-screen fixed z-10  top-0 left-0">
 			
 		</div>
 	)

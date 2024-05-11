@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
+import  fs from "fs/promises";
 
 cloudinary.config({
     cloud_name: "dvd8atowq",
@@ -13,7 +13,7 @@ export const uploadCloudinary = async (path) => {
         const response = await cloudinary.uploader.upload(path, {
             resource_type: "auto",
         });
-        await fs.unlink(path);
+      await fs.unlink(path)
         return response;
       
     } catch (err) {

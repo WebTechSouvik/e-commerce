@@ -7,10 +7,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addStripeClientKey } from "../../redux/slice/orderSlice.js";
 import axios from "axios";
+import { toast } from "sonner";
+import Loading from "../../components/Loading.jsx"
+import Metadata from "../../components/Metadata.jsx"
 
 const ConfirmOrderPage = () => {
 	const { cartItems } = useSelector((state) => state.cart);
-	
+	const [loading,setLoading]=useState(false)
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [subTotal, setSubTotal] = useState();
@@ -36,20 +39,26 @@ const ConfirmOrderPage = () => {
 			withCredentials: true,
 		};
 		try {
+			setLoading(true)
 			const { data } = await axios.post(
 				"http://localhost:8000/api/v1/payment/create-checkout-session",
 				{ orderItems: cartItems },
 				configs,
 			);
+			setLoading(false)
+			localStorage.setItem("stripeClientkey",data.clientSecret)
 			dispatch(addStripeClientKey(data.clientSecret));
 			navigate("/payment");
 		} catch (err) {
-			console.log(err);
+			toast.error(err.response.data.message)
 		}
 	};
 
 	return (
+		<>
+			<Metadata tittle="Confirm Order - Ecommerce"/>
 		<div className="mt-[100px]">
+		{loading&&<Loading/>}
 			<OrderStep active={1} steps={createOrderSteps}/>
 			<ContentWrapper>
 				<div className="grid grid-col-1 lg:grid-cols-3 mt-16">
@@ -120,6 +129,7 @@ const ConfirmOrderPage = () => {
 				</div>
 			</ContentWrapper>
 		</div>
+		</>
 	);
 };
 

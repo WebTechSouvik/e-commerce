@@ -7,7 +7,7 @@ export const addToACart = async (productId, quantity) => {
 		withCredentials: true,
 	};
 	const { data } = await axios.post(
-		"http://localhost:8000/api/v1/cart",
+		"/api/v1/cart",
 		{ productId, quantity },
 		configs,
 	);
@@ -20,7 +20,7 @@ export const getAllItems = async () => {
 		withCredentials: true,
 	};
 
-	const { data } = await axios("http://localhost:8000/api/v1/cart", configs);
+	const { data } = await axios("/api/v1/cart", configs);
 	return data;
 };
 
@@ -30,6 +30,6 @@ export const deleteFromCart = async (productId) => {
 	};
 
 	const { data } = await axios.delete(
-		"http://localhost:8000/api/v1/cart/" + productId,configs,);
+		"/api/v1/cart/" + productId,configs,);
 	return data;
 };

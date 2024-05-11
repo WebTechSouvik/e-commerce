@@ -8,6 +8,7 @@ import {
 import DataTable from "../../components/DataTable.jsx";
 import { productColumns } from "../../constant/adminConstant.js";
 import Loading from "../../components/Loading.jsx";
+import Metadata from "../../components/Metadata.jsx"
 import { toast } from "sonner";
 
 function AllProduct() {
@@ -50,6 +51,10 @@ function AllProduct() {
 
 	return (
 		<>
+			<Metadata tittle="All Products - Admin Panel"/>
+				<h1 className="border-b border-solid  border-black w-max m-auto px-5 text-xl pb-2 mb-4 lg:hidden">
+							Products
+					</h1>
 			{loading && <Loading />}
 			<DataTable colInfo={productColumns} rowInfo={row} />
 		</>

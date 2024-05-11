@@ -4,6 +4,7 @@ import { userLoginThunk,userDetalisThunk,clearError } from "../../redux/slice/us
 import { useNavigate,Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { toast } from 'sonner';
+import Metadata from "../../components/Metadata.jsx"
 
 const Loginpage = () => {
 	const ref = useRef();
@@ -33,6 +34,8 @@ const Loginpage = () => {
 	},[isAuthinticated,error]);
 
 	return (
+		<>
+		<Metadata tittle="Log in - Ecommerce"/>
 		<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 mt-20">
 			<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 				<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -103,6 +106,8 @@ const Loginpage = () => {
 				<div className="flex gap-1 items-center w-full justify-center mt-3"><CgProfile/><span>New member?</span><Link to="/register" className="text-[#ff6347]"> Create a account</Link></div>
 			</div>
 		</div>
+		
+		</>
 	);
 };
 

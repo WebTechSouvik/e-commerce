@@ -10,7 +10,10 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { userLogoutThunk } from "../redux/slice/userSlice.js";
 import { useNavigate } from "react-router-dom";
-import {toast} from 'sonner'
+import { toast } from "sonner";
+
+
+
 const UserProfile = () => {
 	const user = useSelector((state) => state.user.user);
 	const dispatch = useDispatch();
@@ -18,13 +21,13 @@ const UserProfile = () => {
 	const [show, setShow] = useState(false);
 
 	const Close = (reason) => {
-		if (reason === "mouseLeave"||"toggle") {
+		if (reason === "mouseLeave" || "toggle") {
 			console.log("hi");
 			setShow(false);
 		}
 	};
 	const Open = (reason) => {
-		if (reason === "mouseEnter"||"toggle") {
+		if (reason === "mouseEnter" || "toggle") {
 			setShow(true);
 		}
 	};
@@ -40,7 +43,7 @@ const UserProfile = () => {
 		setShow(false);
 		dispatch(userLogoutThunk());
 		navigate("/", { replace: true });
-		toast.success("Logout sucessfull")
+		toast.success("Logout sucessfull");
 	};
 	const handelLogin = () => {
 		navigate("/login");
@@ -53,11 +56,6 @@ const UserProfile = () => {
 
 	const options = [
 		{
-			icon: <CgProfile className="text-2xl text-black" />,
-			tooltip: "Profile",
-			fun: navigateProfile,
-		},
-		{
 			icon: <FaRegListAlt className="text-black text-xl" />,
 			tooltip: "Order",
 			fun: navigateOrder,
@@ -68,7 +66,7 @@ const UserProfile = () => {
 			fun: handelLogout,
 		},
 		{
-			icon: <GrUserAdmin className="text-black text-xl"/>,
+			icon: <GrUserAdmin className="text-black text-xl" />,
 			tooltip: "Admin",
 			fun: handelAdmin,
 		},
@@ -84,14 +82,12 @@ const UserProfile = () => {
 						height: 36,
 						backgroundColor: "transparent",
 					},
-					position: "absolute",
-					top: "12px",
-					right:"43px"
-					
+					position: "relative",
+					top: user?.role == "admin" ? "92px" : "64px",
 				}}
 				icon={
 					<img
-						src={user ? user.avtar : Profile}
+						src={user?.avtar?.url ? user.avtar.url : Profile}
 						alt=""
 						className="h-[36px] w-[36px] rounded-[50%] object-cover z-40"
 					/>
@@ -112,9 +108,8 @@ const UserProfile = () => {
 								/>
 							);
 						} else {
-							
-							if (option.tooltip !=="Admin") {
-								console.log("hi")
+							if (option.tooltip !== "Admin") {
+								console.log("hi");
 
 								return (
 									<SpeedDialAction

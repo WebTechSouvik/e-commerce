@@ -3,7 +3,7 @@ import logo from "../images/logo.png"
 
 const Footer = () => {
 	return (
-		<footer className="bg-[#cfc4c4] body-font mt-12 absolute -bottom-12 w-full translate-y-full">
+		<footer className="bg-[#cfc4c4] body-font relative z-10 mt-12 w-full ">
   <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
     <div className="flex items-center md:justify-start text-white flex-col lg:flex-row">
       <span class="ml-3 text-xl text-[#ff6347]">ECOMMERCE.</span>

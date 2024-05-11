@@ -2,6 +2,10 @@ import { Cart } from "../model/cartModel.js";
 import asyncHandler from "../utils/asynchandler.js";
 import Apierror from "../utils/customerror.js";
 
+
+
+//add item into cart
+
 export const addcartController = asyncHandler(async (req, res) => {
 	const id = req.user;
 	const { productId, quantity } = req.body;
@@ -35,6 +39,9 @@ export const addcartController = asyncHandler(async (req, res) => {
 	}
 });
 
+
+// get all item from cart
+
 export const getCartController = asyncHandler(async (req, res) => {
 	const allItems = await Cart.findOne({ owner: req.user }).populate({
 		path: "cartItems.product",
@@ -47,6 +54,9 @@ export const getCartController = asyncHandler(async (req, res) => {
 		message: "all items from cart fetch sucessfully",
 	});
 });
+
+
+// delete item from cart
 
 export const deleteItemController = asyncHandler(async (req, res) => {
 	const cart = await Cart.findOne({ owner: req.user });
@@ -62,4 +72,3 @@ export const deleteItemController = asyncHandler(async (req, res) => {
 		.json({ status: "sucess", message: "item remove from cart" });
 });
 
-// todo create udadte count controller

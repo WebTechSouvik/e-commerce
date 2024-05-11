@@ -40,7 +40,7 @@ const orderSlice=createSlice({
 name:"order",
 initialState:{
 	shipingInfo:localStorage.getItem('shipingInfo')?JSON.parse(localStorage.getItem('shipingInfo')):null,
-	stripeClientKey:null,
+	stripeClientKey:localStorage.getItem("stripeClientkey")?localStorage.getItem("stripeClientkey"):null,
 	loading:false,
 	orderId:null,
 	userOrders:[],

@@ -12,7 +12,7 @@ export const authorization = (req, res, next) => {
 		next();
 	} catch (err) {
 
-		const error=new Apierror(err.message,404)
+		const error=new Apierror("please login first",404)
 		next(error)
 	}
 };

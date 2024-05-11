@@ -74,7 +74,10 @@ const cartSlice = createSlice({
 		},
 		clearMessage:(state,action)=>{
 			state.message=null
-		}
+		},
+		clearError:(state,action)=>{
+		state.error=null
+	}
 	},
 	extraReducers: (builder) => {
 		builder
@@ -115,5 +118,5 @@ const cartSlice = createSlice({
 	},
 });
 
-export const { addToCart,deleteItem,updateQuantity,clearMessage } = cartSlice.actions;
+export const { addToCart,deleteItem,updateQuantity,clearMessage,clearError } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -19,6 +19,10 @@ const productSchema= new mongoose.Schema({
 		type:String,
 		required:[true,"catagory shouild be included"]
 	},
+	avgRating:{
+		type:Number,
+		default:0
+	},
 	 images:[ {
 		public_id:{
 			type: String,
@@ -39,8 +43,13 @@ const productSchema= new mongoose.Schema({
 	 	owner:{
 	 		type:mongoose.Schema.Types.ObjectId,
 	 		ref:"User"
-	 	}
-,
+	 	},
+
+		rating:{
+			type:Number,
+			required:[true,"give rating for reviwe"]
+		},
+
 	 	description:{
 	 		type:String,
 	 		required:[true,"write description for reviwe"]

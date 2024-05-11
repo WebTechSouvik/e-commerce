@@ -7,7 +7,7 @@ export const userLogin = async (loginInfo) => {
 	};
 
 	const res = await axios.post(
-		"http://localhost:8000/api/v1/user/login",
+		"/api/v1/user/login",
 		loginInfo,
 		config,
 	);
@@ -17,7 +17,7 @@ export const userLogin = async (loginInfo) => {
 };
 
 export const userDetalis = async () => {
-	const { data } = await axios("http://localhost:8000/api/v1/user/detalis", {
+	const { data } = await axios("/api/v1/user/detalis", {
 		withCredentials: true,
 	});
 
@@ -31,7 +31,7 @@ export const userRegister = async (registerInfo) => {
 		},
 	};
 	const { data } = await axios.post(
-		"http://192.168.0.105:8000/api/v1/user/register",
+		"http/api/v1/user/register",
 		registerInfo,
 		config,
 	);
@@ -41,7 +41,7 @@ export const userRegister = async (registerInfo) => {
 
 export const userLogout = async () => {
 	const { data } = await axios.post(
-		"http://localhost:8000/api/v1/user/logout",
+		"/api/v1/user/logout",
 		null,
 		{ withCredentials: true },
 	);

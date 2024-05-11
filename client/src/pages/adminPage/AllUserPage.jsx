@@ -8,6 +8,7 @@ import {
 import DataTable from "../../components/DataTable.jsx";
 import { userColumns } from "../../constant/adminConstant.js";
 import Loading from "../../components/Loading.jsx";
+import Metadata from "../../components/Metadata.jsx"
 import { toast } from "sonner";
 
 const AllUserPage = () => {
@@ -50,6 +51,10 @@ const AllUserPage = () => {
 
 	return (
 		<>
+			<Metadata tittle="All Users - Admin Panel"/>		
+		<h1 className="border-b border-solid  border-black w-max m-auto px-5 text-xl pb-2 mb-4 lg:hidden">
+							Users
+					</h1>
 			{loading && <Loading />}
 			<DataTable colInfo={userColumns} rowInfo={row} />
 		</>

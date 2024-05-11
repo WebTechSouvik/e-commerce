@@ -76,11 +76,13 @@ const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 			<div className=" lg:hidden flex items-center">
 							<button
 								type="button"
-								className="p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-								onClick={() => setMobileFiltersOpen(true)}
+								className="p-2 text-gray-400  hover:text-gray-500 sm:ml-6 lg:hidden"
+								onClick={() => {setMobileFiltersOpen(true)
+													console.log("hi")
+													}}
 							>
 								<span className="sr-only">{heading}</span>
-								<div className="text-xl">
+								<div className="text-xl ">
 								{icon}
 								</div>
 							</button>

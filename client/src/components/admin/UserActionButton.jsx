@@ -11,9 +11,7 @@ const UserActionButton = ({id}) => {
 	const dispatch = useDispatch();
 	return (
 		<div className="text-xl text-red-600 flex gap-4">
-			<Link to={`/`}>
-				<MdEdit />
-			</Link>
+			
 			<div
 				className="cursor-pointer"
 				onClick={() => {

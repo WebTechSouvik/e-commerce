@@ -8,6 +8,7 @@ import Cart from "../../components/Cart.jsx"
 import {OrderStatusSteps} from "../../constant/orderConstant.js"
 import OrderStep from "../../components/OrderStep.jsx"
 import { useForm, SubmitHandler } from "react-hook-form";
+import Metadata from "../../components/Metadata.jsx"
 
 const OrderDetalisPage = () => {
 
@@ -48,7 +49,9 @@ useEffect(()=>{
 	}
 },[singleOrder])
 	return (
-		singleOrder && <ContentWrapper>
+		<>
+		<Metadata tittle="Order Details - Ecommerce"/>
+		{singleOrder && <ContentWrapper>
 		<div className="mt-[100px]">
 			<span className="text-2xl font-semibold">Order ID</span>
 			<h1 className="text-gray-400 lg:text-2xl">#{singleOrder._id}</h1>
@@ -98,9 +101,9 @@ useEffect(()=>{
 		</div>
 	
 		
-		</ContentWrapper>
+		</ContentWrapper>}
 		
-		
+		</>
 	)
 }
 

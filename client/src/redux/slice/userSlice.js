@@ -56,7 +56,10 @@ const userSlice = createSlice({
 	reducers:{
 		clearError:(state,action)=>{
 			state.error=null
-		}
+		},
+		clearMessage:(state,action)=>{
+			state.message=null
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -89,9 +92,9 @@ const userSlice = createSlice({
 				state.loading = true;
 			})
 			.addCase(userRegisterThunk.fulfilled, (state, action) => {
-				state.user = action.payload.user;
+			
 				state.message=action.payload.message
-				state.isAuthinticated = true;
+				
 				state.loading = false;
 				state.error = null;
 			})
@@ -114,5 +117,5 @@ const userSlice = createSlice({
 			});
 	},
 });
-export const {clearError } = userSlice.actions;
+export const {clearError,clearMessage } = userSlice.actions;
 export default userSlice.reducer;

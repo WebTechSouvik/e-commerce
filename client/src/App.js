@@ -35,7 +35,7 @@ function App() {
 
   var allcookies = document.cookie;
   var arrayb = allcookies.split(";");
-  console.log(arrayb);
+
   arrayb.forEach((item) => {
     if (item.startsWith(" userToken=")) {
       dispatch(userDetalisThunk());
@@ -53,6 +53,7 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/product/:Id" element={<ProductDetalisPage />} />
           <Route path="/Products" element={<ProductsPage />} />
+          <Route path="/Products/Scearch/:keyword" element={<ProductsPage />} />
           <Route element={<Protected isadmin={false} />}>
             <Route path="/user/account" element={<AccountDetalispage />} />
             {/* <Route path="/user/order" element={<OrderPage />} />*/}

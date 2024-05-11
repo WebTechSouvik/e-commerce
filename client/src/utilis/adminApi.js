@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true
 export const getAdminProduct= async()=>{
 
 
-const {data}=await axios("http://localhost:8000/api/v1/product/admin")
+const {data}=await axios("/api/v1/product/admin")
 
 return data
 
@@ -21,7 +21,7 @@ const configs ={
 
 }
 
-const {data}=await axios.post("http://localhost:8000/api/v1/product/admin",productInfo,configs)
+const {data}=await axios.post("/api/v1/product/admin",productInfo,configs)
 
 return data;
 
@@ -40,7 +40,7 @@ const configs={
 
 }
 
-const {data}=await axios.put("http://localhost:8000/api/v1/product/admin/"+id,productInfo,configs)
+const {data}=await axios.put("/api/v1/product/admin/"+id,productInfo,configs)
 
 return data
 
@@ -49,7 +49,7 @@ return data
 
 export const deleteProduct=async(productId)=>{
 		
-	const {data}=await axios.delete("http://localhost:8000/api/v1/product/admin/"+productId)
+	const {data}=await axios.delete("/api/v1/product/admin/"+productId)
 
 	return data
 
@@ -64,7 +64,7 @@ const configs ={
 	},
 
 }
-const {data}=await axios.put("http://localhost:8000/api/v1/order/"+orderId,{orderStatus},configs)
+const {data}=await axios.put("/api/v1/order/"+orderId,{orderStatus},configs)
 return data
 
 }
@@ -75,7 +75,7 @@ export const getAllOrder=async()=>{
 	const configs ={
 		withCredentials:true
 	}
-	const {data}=await axios("http://localhost:8000/api/v1/order",configs)
+	const {data}=await axios("/api/v1/order",configs)
 	return data
 
 }
@@ -84,14 +84,14 @@ export const getAllOrder=async()=>{
 
 export const deleteOrder=async(orderId)=>{
 
-const {data}=await axios.delete("http://localhost:8000/api/v1/order/"+orderId)
+const {data}=await axios.delete("/api/v1/order/"+orderId)
 return data
 }
 
 
 export const getAllUser=async()=>{
 
-const {data}=await axios("http://localhost:8000/api/v1/user/admin")
+const {data}=await axios("/api/v1/user/admin")
 
 return data
 
@@ -101,7 +101,7 @@ return data
 
 export const deleteUser=async(userId)=>{
 	console.log(userId)
-	const {data}=await axios.delete("http://localhost:8000/api/v1/user/admin/"+userId)
+	const {data}=await axios.delete("/api/v1/user/admin/"+userId)
 
 	return data
 }

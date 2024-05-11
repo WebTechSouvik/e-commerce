@@ -5,22 +5,22 @@ import Apierror from "../utils/customerror.js";
 import { uploadCloudinary } from "../utils/uploadCloudinary.js";
 import { v2 as cloudinary } from "cloudinary"
 
+// register of a user
+
 const registerController = asyncHandler(async (req, res, next) => {
-	const { username, email, fullname, password, avatar } = req.body;
-	// console.log(req.file);
-	if (!username || !email || !fullname || !password) {
-		next(new Apierror("all fiels is requried", 400));
-	}
+	const { username, email, fullname, password, avatar,role } = req.body;
+	
 
 	const existenceuser = await User.findOne({ email });
 
 	if (existenceuser) {
 		throw new Apierror("user already exist", 400);
 	}
+	
 	const avatarLocalPath = req?.file?.path;
 	const cloudinaryResponse = await uploadCloudinary(avatarLocalPath);
 
-	// console.log(cloudinaryResponse);
+
 	const user = await User.create({
 		username,
 		email,
@@ -28,8 +28,9 @@ const registerController = asyncHandler(async (req, res, next) => {
 		password,
 		avtar: {
 			public_id:cloudinaryResponse?.public_id,
-			url:cloudinaryResponse?.secure_url || " "
-	}
+			url:cloudinaryResponse?.secure_url ||""
+	},
+	 role
 
 	});
 
@@ -40,9 +41,12 @@ const registerController = asyncHandler(async (req, res, next) => {
 	});
 });
 
+
+// log in by a user
+
 const loginController = asyncHandler(async (req, res) => {
 	const { username, password } = req.body;
-console.log(res.cookie())
+
 
 	if (!username || !password) {
 		throw new Apierror("username and password is requirid", 400);
@@ -72,10 +76,12 @@ console.log(res.cookie())
 		.send({ status: "sucess", message: "login succsesfully" });
 });
 
+// get details of a user
+
 const userDetalisController = asyncHandler(async (req, res) => {
 	const id = req.user;
 
-	const user = await User.findById(id).select("-password");
+	const user = await User.findById(id).select(["-password","-avtar.public_id"]);
 
 	if (!user) {
 		throw new Apierror("user not found", 400);
@@ -88,6 +94,7 @@ const userDetalisController = asyncHandler(async (req, res) => {
 	});
 });
 
+// logout by user
 
 const userLogoutController = asyncHandler(async (req, res) => {
 	const options = {
@@ -109,6 +116,7 @@ res.status(200).json({status:"sucess",users,message:"all user fetch sucessfully"
 
 })
 
+// get all user of admin
 
 const updateUserRole=asyncHandler(async(req,res)=>{
 
@@ -120,7 +128,7 @@ res.status(201).json({status:"sucess",message:"role update sucessfull"})
 
 })
 
-
+ // delete a user by admin
 const deleteUser=asyncHandler(async(req,res)=>{
 
 const user=await User.findById(req.params.Id)
@@ -128,8 +136,10 @@ const user=await User.findById(req.params.Id)
 if(!user){
 	throw new Apierror("user does not exist")
 }
+if(user.avatar){
+	await cloudinary.uploader.destroy(user.avatar.public_id)
+}
 
-// await cloudinary.uploader.destroy(user.avatar.public_id)
 
 await User.findByIdAndDelete(req.params.Id)
 

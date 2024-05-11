@@ -2,6 +2,9 @@ import { Order } from "../model/orderModel.js";
 import asyncHandler from "../utils/asynchandler.js";
 import Apierror from "../utils/customerror.js";
 import mongoose from "mongoose";
+
+// create a order for user 
+
 export const createOrder = asyncHandler(async (req, res) => {
 	const order = await Order.create({ ...req.body, customer: req.user });
 
@@ -11,6 +14,8 @@ export const createOrder = asyncHandler(async (req, res) => {
 		order,
 	});
 });
+
+//get single order of a user
 
 export const getSingleOrder = asyncHandler(async (req, res) => {
 	const order = await Order.findById(req.params.Id)
@@ -26,6 +31,9 @@ export const getSingleOrder = asyncHandler(async (req, res) => {
 		order,
 	});
 });
+
+
+// get all order for a user
 
 export const userOrders = asyncHandler(async (req, res) => {
 	
@@ -47,6 +55,7 @@ export const userOrders = asyncHandler(async (req, res) => {
 	});
 });
 
+// get all order of all user for admin
 
 export const getAllorder=asyncHandler(async(req,res)=>{
 
@@ -58,6 +67,8 @@ export const getAllorder=asyncHandler(async(req,res)=>{
 
 })
 
+// update order status of user
+
 export const updateOrder=asyncHandler(async(req,res)=>{
 	const upadtedOrder=await Order.findByIdAndUpdate(req.params.Id,req.body,{new:true})
 
@@ -68,6 +79,8 @@ export const updateOrder=asyncHandler(async(req,res)=>{
 
 res.status(201).json({status:"sucess",message:"order updated sucessfully",upadtedOrder})
 })
+
+// delete order of a user by admin
 
 export const deleteOrder=asyncHandler(async(req,res)=>{
 

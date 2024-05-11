@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { Country, State, City } from "country-state-city";
 import { addShippingInfo } from "../../redux/slice/orderSlice.js";
 import { useDispatch } from "react-redux";
+import Metadata from "../../components/Metadata.jsx"
 
 const ShippingPage = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,  formState: { errors } } = useForm();
   const [contryCode, setCountryCode] = useState("AF");
   const dispatch = useDispatch();
 
@@ -28,6 +29,8 @@ const ShippingPage = () => {
   };
 
   return (
+    <>
+      <Metadata tittle="Shipping - Ecommerce"/>
     <div className="mt-[100px]">
       <OrderStep active={0} steps={createOrderSteps}/>
 
@@ -51,13 +54,14 @@ const ShippingPage = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    {...register("address")}
+                    id="address"
+                    {...register("address",{required: true,})}
                     type="text"
                     autoComplete="email"
                     className="block w-full rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:border-none focus:ring-inset focus:ring-[#ff6347] sm:text-sm sm:leading-6"
                   />
                 </div>
+                {errors?.address?.type === "required" && <p className="text-red-500">This field is required</p>}
               </div>
               <div className="sm:col-span-4">
                 <label
@@ -69,12 +73,13 @@ const ShippingPage = () => {
                 <div className="mt-2">
                   <input
                     type="text"
-                    {...register("city")}
+                    {...register("city",{required: true,})}
                     id="city"
                     autoComplete="address-level2"
                     className="block w-full rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:border-none focus:ring-inset focus:ring-[#ff6347] sm:text-sm sm:leading-6"
                   />
                 </div>
+                 {errors?.city?.type === "required" && <p className="text-red-500">This field is required</p>}
               </div>
               <div className="sm:col-span-4">
                 <label
@@ -86,12 +91,13 @@ const ShippingPage = () => {
                 <div className="mt-2">
                   <input
                     type="number"
-                    {...register("pincode")}
+                    {...register("pincode",{required: true,})}
                     id="postal-code"
                     autoComplete="postal-code"
                     className="block w-full rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:border-none focus:ring-inset focus:ring-[#ff6347] sm:text-sm sm:leading-6"
                   />
                 </div>
+                 {errors?.pincode?.type === "required" && <p className="text-red-500">This field is required</p>}
               </div>
 
               <div className="sm:col-span-4">
@@ -104,12 +110,13 @@ const ShippingPage = () => {
                 <div className="mt-2">
                   <input
                     type="number"
-                    {...register("phoneNumber")}
+                    {...register("phoneNumber",{required: true,})}
                     id="postal-code"
                     autoComplete="postal-code"
                     className="block w-full rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:border-none focus:ring-inset focus:ring-[#ff6347] sm:text-sm sm:leading-6"
                   />
                 </div>
+                 {errors?.phoneNumber?.type === "required" && <p className="text-red-500">This field is required</p>}
               </div>
 
               <div className="sm:col-span-3">
@@ -177,6 +184,7 @@ const ShippingPage = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

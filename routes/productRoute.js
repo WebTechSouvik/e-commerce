@@ -12,13 +12,14 @@ import {
 	updateProduct,
 	deleteProduct,
 	getAdminProduct,
+	addReview
 } from "../controller/productController.js";
 
 
 router.route("/").get(getAllProducts);
 router.route("/details/:Id").get(getProduct);
 
-
+router.route("/review/:Id").post(authorization,addReview)
 router.use(authorization, isAdmin);
 
 router.route("/admin").post(upload.array("images"),createProduct).get(getAdminProduct)
