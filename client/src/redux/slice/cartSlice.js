@@ -8,8 +8,8 @@ import {
 export const addToCartThunk = createAsyncThunk(
 	"addToCartThunk",
 	async (value) => {
-		console.log(value.productId)
-			const {productId,quantity}=value
+		console.log(value.productId);
+		const { productId, quantity } = value;
 		try {
 			return await addToACart(productId, quantity);
 		} catch (err) {
@@ -53,31 +53,26 @@ const cartSlice = createSlice({
 			state.cartItems.push(action.payload);
 		},
 		deleteItem: (state, action) => {
-			console.log(action.payload)
+			console.log(action.payload);
 			const newCart = state.cartItems.filter(
 				(item) => item.product._id != action.payload,
 			);
 			state.cartItems = [...newCart];
 		},
-		updateQuantity:(state,action)=>{
-
-			const upadateCart=state.cartItems.map((item)=>{
-
-				if(item.product._id==action.payload.productId)
-					return{...item,quantity:action.payload.quantity}
-				else
-					return item
-			})
-			state.cartItems=[...upadateCart]
-
-
+		updateQuantity: (state, action) => {
+			const upadateCart = state.cartItems.map((item) => {
+				if (item.product._id == action.payload.productId)
+					return { ...item, quantity: action.payload.quantity };
+				else return item;
+			});
+			state.cartItems = [...upadateCart];
 		},
-		clearMessage:(state,action)=>{
-			state.message=null
+		clearMessage: (state, action) => {
+			state.message = null;
 		},
-		clearError:(state,action)=>{
-		state.error=null
-	}
+		clearError: (state, action) => {
+			state.error = null;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -97,7 +92,7 @@ const cartSlice = createSlice({
 			})
 			.addCase(getAllItemsThunk.fulfilled, (state, action) => {
 				state.cartItems = [...action.payload.allItems];
-				
+
 				state.loading = false;
 			})
 			.addCase(getAllItemsThunk.rejected, (state, action) => {
@@ -118,5 +113,11 @@ const cartSlice = createSlice({
 	},
 });
 
-export const { addToCart,deleteItem,updateQuantity,clearMessage,clearError } = cartSlice.actions;
+export const {
+	addToCart,
+	deleteItem,
+	updateQuantity,
+	clearMessage,
+	clearError,
+} = cartSlice.actions;
 export default cartSlice.reducer;

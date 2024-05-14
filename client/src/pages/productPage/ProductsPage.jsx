@@ -7,7 +7,7 @@ import ProductFilterItem from "../../components/ProductFilterItem.jsx";
 import MobileSideBar from "../../components/MobileSideBar.jsx";
 import { HiMiniFunnel } from "react-icons/hi2";
 import Loading from "../../components/Loading.jsx";
-import {getAllProductThunk, setPage,resetPage,clearError } from "../../redux/slice/productSlice.js";
+import {getAllProductThunk, setPage,resetFilter,resetPage,resetPrice,clearError } from "../../redux/slice/productSlice.js";
 import { toast } from "sonner";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -23,8 +23,18 @@ const ProductsPage = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+	
+		if(keyword){
+			dispatch(resetPage())
+			dispatch(resetFilter())
+			dispatch(resetPrice())
+		}
+	}, [keyword]);
+
+	useEffect(()=>{
 		dispatch(resetPage())
-	}, [keyword,filter]);
+
+	},[filter,price])
 
 
 	useEffect(() => {
@@ -107,6 +117,7 @@ const ProductsPage = () => {
 						<div className="flex justify-center lg:block lg:relative lg:w-max left-1/2 mt-10">
 							<Stack spacing={2}>
 								<Pagination
+								selected={true}
 									count={
 										totalProductsCount % 8 == 0
 											? Math.floor(totalProductsCount / 8)
@@ -121,7 +132,7 @@ const ProductsPage = () => {
 									sx={{
 										"& .css-19xm0h7-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected":
 											{
-												backgroundColor: "tomato",
+												backgroundColor: "#ff6347",
 											},
 									}}
 								/>

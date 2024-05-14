@@ -10,6 +10,7 @@ import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { IoIosContact } from "react-icons/io";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { SlLogin } from "react-icons/sl";
+import { GrLogout } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import InputAdornment from "@mui/material/InputAdornment";
 import Input from "@mui/material/Input";
@@ -24,6 +25,8 @@ import UserProfile from "../UserProfile.jsx";
 import MobileSideBar from "../MobileSideBar.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userLogoutThunk } from "../../redux/slice/userSlice.js";
 import "./style.css";
 
 const Header = () => {
@@ -33,6 +36,8 @@ const Header = () => {
 	const [keyword, setKeyword] = useState("");
 	const [open, setOpen] = React.useState(false);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 
 	const handelScearch = () => {
 		if (keyword) {
@@ -77,7 +82,7 @@ const Header = () => {
 						</li>
 					</ul>
 					<div className="flex absolute bottom-3 gap-2 w-full justify-center">
-						<div className="flex gap-2 items-center">
+						{!isAuthinticated?<><div className="flex gap-2 items-center">
 							<CgProfile />
 							<Link to="/register" className="text-[#ff6347]">
 								Create a account
@@ -89,7 +94,12 @@ const Header = () => {
 							<Link to="/login" className="text-[#ff6347]">
 								Sing in
 							</Link>
-						</div>
+						</div></>:<div className="flex gap-2 items-center">
+							<GrLogout />
+							<button onClick={()=>dispatch(userLogoutThunk())} className="text-[#ff6347]">
+								Log Out
+							</button>
+						</div>}
 					</div>
 				</MobileSideBar>
 				<div className="h-full relative -z-10 right-7 w-[170px] md:w-[300px]">

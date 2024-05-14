@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import Loading from "../../components/Loading.jsx"
 import Metadata from "../../components/Metadata.jsx"
+import { PiCurrencyInrBold } from "react-icons/pi";
 
 const ConfirmOrderPage = () => {
 	const { cartItems } = useSelector((state) => state.cart);
@@ -41,7 +42,7 @@ const ConfirmOrderPage = () => {
 		try {
 			setLoading(true)
 			const { data } = await axios.post(
-				"http://localhost:8000/api/v1/payment/create-checkout-session",
+				"/api/v1/payment/create-checkout-session",
 				{ orderItems: cartItems },
 				configs,
 			);
@@ -99,20 +100,20 @@ const ConfirmOrderPage = () => {
 							<div className="flex flex-col gap-5 py-6 border-y-2 border-gray-300 mt-6">
 								<div className="flex justify-between gap-5 text-base font-medium text-gray-900">
 									<p>Subtotal</p>
-									<p>${subTotal}</p>
+									<p className ="flex items-center"><PiCurrencyInrBold/> {subTotal}</p>
 								</div>
 								<div className="flex justify-between gap-5 text-base font-medium text-gray-900">
 									<p>Shipping Charge</p>
-									<p>$50</p>
+									<p className ="flex items-center"><PiCurrencyInrBold/> 50</p>
 								</div>
 								<div className="flex justify-between gap-5 text-base font-medium text-gray-900">
 									<p>GST</p>
-									<p>${gst}</p>
+									<p className ="flex items-center"><PiCurrencyInrBold/> {gst}</p>
 								</div>
 							</div>
 							<div className="flex justify-between gap-5 text-base font-medium text-gray-900 mt-5">
 								<p>Total</p>
-								<p>${total}</p>
+								<p className ="flex items-center"><PiCurrencyInrBold/> {total}</p>
 							</div>
 
 							<div className="mt-6 flex justify-end">

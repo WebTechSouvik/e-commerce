@@ -12,9 +12,7 @@ const AllOrderPage = () => {
 	const { allOrders,message,error,loading } = useSelector((state) => state.admin);
 	const [rows, setRows] = useState([]);
 
-	useEffect(() => {
-		dispatch(getAllOrderThunk());
-	}, []);
+
 
 	useEffect(() => {
 	
@@ -34,6 +32,10 @@ const AllOrderPage = () => {
 			});
 
 			setRows(tempRow);
+		}
+		else{
+
+			setRows([]);
 		}
 	}, [allOrders]);
 

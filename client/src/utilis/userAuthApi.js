@@ -6,11 +6,7 @@ export const userLogin = async (loginInfo) => {
 		withCredentials: true,
 	};
 
-	const res = await axios.post(
-		"/api/v1/user/login",
-		loginInfo,
-		config,
-	);
+	const res = await axios.post("/api/v1/user/login", loginInfo, config);
 	console.log(res);
 	const { data } = res;
 	return data;
@@ -31,7 +27,7 @@ export const userRegister = async (registerInfo) => {
 		},
 	};
 	const { data } = await axios.post(
-		"http/api/v1/user/register",
+		"/api/v1/user/register",
 		registerInfo,
 		config,
 	);
@@ -40,10 +36,8 @@ export const userRegister = async (registerInfo) => {
 };
 
 export const userLogout = async () => {
-	const { data } = await axios.post(
-		"/api/v1/user/logout",
-		null,
-		{ withCredentials: true },
-	);
+	const { data } = await axios.post("/api/v1/user/logout", null, {
+		withCredentials: true,
+	});
 	return data;
 };

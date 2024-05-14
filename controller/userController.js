@@ -143,7 +143,7 @@ if(user.avatar){
 
 await User.findByIdAndDelete(req.params.Id)
 
-res.status(201).json({status:"sucess",message:"user deleted sucessfull"})
+res.status(201).json({status:"sucess",message:"user deleted sucessfull",user})
 
 })
 

@@ -18,9 +18,7 @@ const AllUserPage = () => {
 	);
 	const [row, setRow] = useState([]);
 
-	useEffect(() => {
-		dispatch(getAllUserThunk());
-	}, []);
+
 
 	useEffect(() => {
 		if (users.length > 0) {
@@ -33,7 +31,12 @@ const AllUserPage = () => {
 					role: user.role,
 				};
 			});
+
 			setRow(tempRow);
+		}
+		else{
+
+			setRow([]);
 		}
 	}, [users]);
 

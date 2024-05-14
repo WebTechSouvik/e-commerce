@@ -18,10 +18,10 @@ const DataTable = ({colInfo,rowInfo}) => {
 					"& .MuiDataGrid-cell--textLeft": {
 						justifyContent: "center",
 					},
-					"& .css-yrdy0g-MuiDataGrid-columnHeaderRow": {
-						backgroundColor: "tomato",
-						color: "white",
-					},
+					"& .MuiDataGrid-columnHeader": {
+						backgroundColor:"#ff6347",
+						color:"white",
+					}
 				}}
 				rows={rowInfo}
 				columns={colInfo}

@@ -48,17 +48,17 @@ const userSlice = createSlice({
 	name: "user",
 	initialState: {
 		loading: false,
-		message:null,
+		message: null,
 		user: null,
 		isAuthinticated: false,
 		error: null,
 	},
-	reducers:{
-		clearError:(state,action)=>{
-			state.error=null
+	reducers: {
+		clearError: (state, action) => {
+			state.error = null;
 		},
-		clearMessage:(state,action)=>{
-			state.message=null
+		clearMessage: (state, action) => {
+			state.message = null;
 		},
 	},
 	extraReducers: (builder) => {
@@ -92,9 +92,8 @@ const userSlice = createSlice({
 				state.loading = true;
 			})
 			.addCase(userRegisterThunk.fulfilled, (state, action) => {
-			
-				state.message=action.payload.message
-				
+				state.message = action.payload.message;
+
 				state.loading = false;
 				state.error = null;
 			})
@@ -117,5 +116,5 @@ const userSlice = createSlice({
 			});
 	},
 });
-export const {clearError,clearMessage } = userSlice.actions;
+export const { clearError, clearMessage } = userSlice.actions;
 export default userSlice.reducer;

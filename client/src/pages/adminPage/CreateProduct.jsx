@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import {
 	createproductThunk,
 	updateProductThunk,
+	updateProductDetalisThunk,
 	clearError,
 	clearMessage,
 } from "../../redux/slice/adminSlice.js";
@@ -16,12 +17,12 @@ import { toast } from "sonner";
 function CreateProduct() {
 	const [images, setImages] = useState([]);
 	const [imageFiles, setImageFiles] = useState([]);
-	const [product, setproduct] = useState({});
+	const [product,setproduct]=useState({})
 
 	const dispatch = useDispatch();
 	const ref = useRef();
 	const { Id } = useParams();
-	const { loading, message, error, products } = useSelector(
+	const { loading, message, error, productDetails} = useSelector(
 		(state) => state.admin,
 	);
 
@@ -72,18 +73,25 @@ function CreateProduct() {
 
 	useEffect(() => {
 		if (Id) {
-			const tempProduct = products.filter((product) => product._id == Id);
-			setproduct(tempProduct[0]);
-			const imageArray = tempProduct[0].images.map((image) => {
+			dispatch(updateProductDetalisThunk(Id))
+			
+		} else {
+			
+			setImages([]);
+		}
+	}, [Id]);
+
+	useEffect(()=>{
+		if(productDetails){
+			setproduct(productDetails)
+			const imageArray = productDetails?.images?.map((image) => {
 				return { url: image.url };
 			});
 
 			setImages([...imageArray]);
-		} else {
-			setproduct(null);
-			setImages([]);
 		}
-	}, [Id]);
+
+	},[productDetails])
 
 	useEffect(() => {
 		if (message) {
@@ -199,24 +207,13 @@ function CreateProduct() {
 									Catagory
 								</label>
 								<div className="mt-2">
-									<div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-										<input
-											type="text"
-											name="catagory"
-											id="username"
-											autoComplete="username"
-											className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-											placeholder="Catagory"
-											onChange={(e) =>
-												setproduct({
-													...product,
-													catagory: e.target.value,
-												})
-											}
-											value={
-												product ? product.catagory : ""
-											}
-										/>
+									<div>
+										<select name="catagory" className="bg-transparent border-0 ring-1 ring-inset ring-gray-300 block w-full rounded-md border-1 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:border-none focus:ring-inset focus:ring-[#ff6347] sm:max-w-xs sm:text-sm sm:leading-6">
+											
+											<option value="shirt">Shirt</option>
+											<option value="watch">Watch</option>
+											<option value="laptop">Laptop</option>
+										</select>
 									</div>
 								</div>
 							</div>

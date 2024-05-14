@@ -30,7 +30,7 @@ const CartPage = () => {
 	};
 
 	useEffect(() => {
-		if (isAuthinticated) dispatch(getAllItemsThunk());
+		if (isAuthinticated && cartItems.length==0) dispatch(getAllItemsThunk());
 	}, [isAuthinticated]);
 
 	useEffect(() => {
@@ -52,6 +52,7 @@ const CartPage = () => {
 
 	return (
 		<Fragment>
+			{loading && <Loading />}
 			<Metadata tittle="Cart - Ecommerce" />
 			{!isAuthinticated ? (
 				<div className="w-screen h-screen flex flex-col justify-center items-center gap-3">
@@ -89,7 +90,7 @@ const CartPage = () => {
 						<h3 className="border-b border-solid  border-black w-max mx-auto px-5 text-xl pb-1  translate-x-[-14px] my-6">
 							My Cart
 						</h3>
-						{loading && <Loading />}
+					
 
 						<div className="flow-root bg-white px-2 py-5">
 							<ul

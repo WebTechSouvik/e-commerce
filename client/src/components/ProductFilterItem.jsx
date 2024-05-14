@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
 	getAllProductThunk,
 	updateFilter,
+	resetFilterItem,
 	addFilter,
 	removeFilter,
 	changePrice,
@@ -23,19 +24,12 @@ import {
 } from "@heroicons/react/20/solid";
 
 const ProductFilterItem = ({ isMobile, keyword }) => {
-	const [priceValue, setPriceValue] = useState([0, 100000]);
-	const [filter, setFilter] = useState({
-		catagory: null,
-		price: [0, 100000],
-	});
-	const [link, setLink] = useState("");
 
-	const { products, filterItem, currentPage } = useSelector(
-		(state) => state.product,
-	);
+
+	const { filterItem,price } = useSelector((state) => state.product);
+		const [priceValue, setPriceValue] = useState([...price]);
 	const dispatch = useDispatch();
 
-	
 	const handelFilter = (key, value, label, e) => {
 		if (key == "catagory") {
 			if (e.target.checked) {
@@ -47,10 +41,16 @@ const ProductFilterItem = ({ isMobile, keyword }) => {
 		dispatch(updateFilter({ id: key, label }));
 	};
 
-	
 	const handelPrice = (value) => {
 		dispatch(changePrice(value));
 	};
+
+	useEffect(() => {
+		if (keyword) {
+			dispatch(resetFilterItem());
+			setPriceValue([0, 100000]);
+		}
+	}, [keyword]);
 
 	return (
 		<form className={`${isMobile ? "px-4 lg:hidden" : "hidden lg:block"}`}>
@@ -96,9 +96,7 @@ const ProductFilterItem = ({ isMobile, keyword }) => {
 													name={`${section.id}[]`}
 													defaultValue={option.value}
 													type="checkbox"
-													defaultChecked={
-														option.checked
-													}
+													checked={option.checked}
 													className="h-4 w-4 rounded border-gray-600 text-[#ff6347] focus:ring-[#ff6347]"
 													onChange={(e) =>
 														handelFilter(

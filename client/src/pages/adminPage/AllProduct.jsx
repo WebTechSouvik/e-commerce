@@ -18,9 +18,7 @@ function AllProduct() {
 	);
 	const [row, setRow] = useState([]);
 
-	useEffect(() => {
-		dispatch(getAdminProductThunk());
-	}, []);
+
 
 	useEffect(() => {
 		if (products.length > 0) {
@@ -34,6 +32,10 @@ function AllProduct() {
 				};
 			});
 			setRow(tempRow);
+		}
+		else{
+
+			setRow([]);
 		}
 	}, [products]);
 

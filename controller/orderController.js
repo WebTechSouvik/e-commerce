@@ -84,8 +84,8 @@ res.status(201).json({status:"sucess",message:"order updated sucessfully",upadte
 
 export const deleteOrder=asyncHandler(async(req,res)=>{
 
-	const removeProduct=await Order.findByIdAndDelete(req.params.Id)
+	const removeOrder=await Order.findByIdAndDelete(req.params.Id)
 
-	res.status(201).json({status:"sucess",message:"order deleted sucessfully"})
+	res.status(201).json({status:"sucess",message:"order deleted sucessfully",removeOrder})
 
 })

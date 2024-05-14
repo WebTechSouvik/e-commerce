@@ -23,7 +23,7 @@ import orderRouter from "./routes/orderRoute.js"
 import cartRouter from "./routes/cartRoute.js"
 import paymentRouter from "./routes/paymentRoute.js"
 
-app.get("/",(req,res)=>{
+app.get("",(req,res)=>{
     res.send(path.resolve(__dirname1,"client","build","index.html"))
 })
 app.use("/api/v1/user", userRouter);

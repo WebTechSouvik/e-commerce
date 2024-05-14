@@ -5,18 +5,20 @@ import { columns } from "../../constant/orderConstant.js";
 import { getMyOrderThunk } from "../../redux/slice/orderSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import Metadata from "../../components/Metadata.jsx"
+import Loading from "../../components/Loading.jsx"
 
 const OrderPage = () => {
-	const { userOrders } = useSelector((state) => state.order);
+	const { loading,userOrders } = useSelector((state) => state.order);
 	const [rows, setRows] = useState([]);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		if(!userOrders)
 		dispatch(getMyOrderThunk());
 	}, []);
 
 	useEffect(() => {
-		if (userOrders.length > 0) {
+		if (userOrders && userOrders.length > 0) {
 			const tempRow = userOrders.map((order) => {
 				return {
 					id: order._id,
@@ -38,6 +40,7 @@ const OrderPage = () => {
 		 
 			<>
 			<Metadata tittle="Orders - Ecommerce"/>
+			{loading && <Loading/>}
 				<div className=" mt-[100px] min-h-screen">
 					<h3 className="border-b border-solid  border-black w-max mx-auto px-5 text-xl pb-1  translate-x-[-14px] my-6">
 						My Orders
