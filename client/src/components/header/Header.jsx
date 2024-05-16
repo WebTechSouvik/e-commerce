@@ -48,6 +48,7 @@ const Header = () => {
 	};
 
 	const handelClose = () => {
+		
 		setOpen(false);
 		setKeyword(null);
 	};
