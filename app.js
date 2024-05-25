@@ -32,7 +32,7 @@ app.use("/api/v1/payment",paymentRouter)
 
 app.use(errorhaldeler);
 app.get("*",(req,res)=>{
-    res.send(path.resolve(__dirname1,"client","build","index.html"))
+    res.sendFile(path.resolve(__dirname1,"client","build","index.html"))
 })
 
 export { app };
