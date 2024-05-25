@@ -23,9 +23,7 @@ import orderRouter from "./routes/orderRoute.js"
 import cartRouter from "./routes/cartRoute.js"
 import paymentRouter from "./routes/paymentRoute.js"
 
-app.get("",(req,res)=>{
-    res.send(path.resolve(__dirname1,"client","build","index.html"))
-})
+
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/order",orderRouter)
@@ -33,5 +31,8 @@ app.use("/api/v1/cart",cartRouter)
 app.use("/api/v1/payment",paymentRouter)
 
 app.use(errorhaldeler);
+app.get("*",(req,res)=>{
+    res.send(path.resolve(__dirname1,"client","build","index.html"))
+})
 
 export { app };
