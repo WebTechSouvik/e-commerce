@@ -8,7 +8,7 @@ import { v2 as cloudinary } from "cloudinary"
 // create product by admin
 
 export const createProduct = asyncHandler(async (req, res) => {
-	console.log(req.body);
+
 	let imageArray;
 	if (req.files) {
 		imageArray = await Promise.all(
@@ -27,7 +27,8 @@ export const createProduct = asyncHandler(async (req, res) => {
 	res.status(201).json({
 		message: "product create succesfully",
 		status: "sucess",
-		product,
+		product
+	
 	});
 });
 
