@@ -21,11 +21,11 @@ export const errorhaldeler = (err, req, res, next) => {
 			status: "fail",
 		});
 	}
-	 else {
-		res.status(500).json({
-			message:
-				"Something went wrong.Please try again after sometimes......",
-			status: "Error",
-		});
-	}
+	//  else {
+	// 	res.status(500).json({
+	// 		message:
+	// 			"Something went wrong.Please try again after sometimes......",
+	// 		status: "Error",
+	// 	});
+	// }
 };
