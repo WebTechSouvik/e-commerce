@@ -29,6 +29,7 @@ import Protected from "./components/Protected.jsx";
 import { CircularProgress } from "@mui/material";
 import { Toaster } from "sonner";
 import { clearError } from "./redux/slice/userSlice.js";
+import ScrollToTop from "./components/ScrollToTop.jsx"
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function App() {
   return (
     <div className="App ">
       <BrowserRouter>
+        <ScrollToTop/>
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
