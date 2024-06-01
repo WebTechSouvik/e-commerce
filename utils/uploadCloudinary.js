@@ -6,8 +6,8 @@ dotenv.config();
 
 cloudinary.config({
     cloud_name: "dvd8atowq",
-    api_key:`${process.env.CLOUDINARY_API_KEY}`,
-    api_secret:`${process.env.CLOUDINARY_SECRET_KEY}`,
+    api_key:"128246261791676",
+    api_secret:"Z0NH8kXA7ioDvXYkdE_eQdL_8_U"
 });
 
 export const uploadCloudinary = async (path) => {
