@@ -8,10 +8,10 @@ import swaggerUi  from "swagger-ui-express"
 import swagerFile from "./swagger-output.json" assert { type: "json" }
 
 const app = express();
-// app.use(cors({
-//     origin:["http://192.168.0.105:3000","http://localhost:3000"],
-//     credentials: true
-// }))
+app.use(cors({
+    origin:["http://192.168.0.105:3000","http://localhost:3000"],
+    credentials: true
+}))
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(cookieParser())
