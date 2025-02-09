@@ -35,6 +35,7 @@ export const userRegisterThunk = createAsyncThunk(
 		try {
 			return await userRegister(loginInfo);
 		} catch (err) {
+			
 			throw new Error(err.response.data.message);
 		}
 	},

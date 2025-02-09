@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import Apierror from "../utils/customerror.js"
 
 export const authorization = (req, res, next) => {
-	const token = req.cookies.userToken;
+	const token = req.Cookies.userToken;
 	
 	try {
 		const decode = jwt.verify(token, process.env.SECRET_KEY);

@@ -4,12 +4,14 @@ import { errorhaldeler } from "./middeleware/errorMiddleware.js";
 import cookieParser from "cookie-parser"
 import fileupload from "express-fileupload"
 import path from "path"
+import swaggerUi  from "swagger-ui-express"
+import swagerFile from "./swagger-output.json" assert { type: "json" }
 
 const app = express();
-app.use(cors({
-    origin:["http://192.168.0.105:3000","http://localhost:3000"],
-    credentials: true
-}))
+// app.use(cors({
+//     origin:["http://192.168.0.105:3000","http://localhost:3000"],
+//     credentials: true
+// }))
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(cookieParser())
@@ -29,6 +31,7 @@ app.use("/api/v1/product", productRouter);
 app.use("/api/v1/order",orderRouter)
 app.use("/api/v1/cart",cartRouter)
 app.use("/api/v1/payment",paymentRouter)
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swagerFile))
 
 app.use(errorhaldeler);
 app.get("*",(req,res)=>{

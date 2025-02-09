@@ -20,7 +20,7 @@ const AdminPage = () => {
 			{/*<h3 className="border-b border-solid  border-black w-max m-auto px-5 text-xl pb-1 hidden lg:block">
 				Admin Panel
 			</h3>*/}
-			<div className="lg:grid grid-cols-4 ">
+			<div className="lg:grid grid-cols-4">
 				<AdminSideBar />
 				<div className="overflow-x-scroll px-2 min-h-screen lg:col-span-4  lg:overflow-hidden lg:ml-[260px] xl:ml-[337px] ">
 					<Outlet />
